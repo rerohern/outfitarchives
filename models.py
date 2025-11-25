@@ -1,4 +1,4 @@
-from app import db
+from extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
@@ -78,6 +78,11 @@ class ClosetPiece(db.Model):
 
     #one to many
     media = db.relationship("Media", back_populates="closet_piece", cascade="all, delete-orphan")
+
+    # ___ functions ____
+    def generate_piece_code(self, category):
+        count = ClosetPiece.query.filter_by(category=category).count()
+        return f"{category}_{count + 1}"
 
     # ____ helper properties for images _____
     @property
