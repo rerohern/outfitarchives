@@ -1,2 +1,28 @@
 # Created by venv; see https://docs.python.org/3/library/venv.html
 
+# Ignore virtual environments
+venv/
+.venv/
+env/
+bin/
+lib/
+include/
+pyvenv.cfg
+
+# MacOS system files
+.DS_Store
+
+# Environment variables
+*.env
+.env
+
+# Flask instance folder
+instance/
+
+# Bytecode / cache
+__pycache__/
+*.py[cod]
+
+# Databases (optional)
+*.sqlite3
+*.db
