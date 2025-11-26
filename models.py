@@ -69,7 +69,7 @@ class ClosetPiece(db.Model):
     year_made = db.Column(db.Integer, index=True, unique=False, nullable=True)
 
     # credit/acquisition info
-    acquisition_id = db.Column(db.Integer, db.ForeignKey("acquistion.id"))
+    acquisition = db.Column(db.Integer, db.ForeignKey("acquisition.id"))
 
     # ____ relationships _____
 
@@ -151,7 +151,7 @@ class Outfit(db.Model):
 # ___ credit/acquisition model ___________________________________________________________________________________
 
 class Acquisition(db.Model):
-    __tablename__ = "acquisition_info"
+    __tablename__ = "acquisition"
 
     id = db.Column(db.Integer, primary_key = True)
     year_acquired = db.Column(db.Integer, index=True, unique=False)
