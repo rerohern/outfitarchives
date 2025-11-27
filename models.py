@@ -69,7 +69,7 @@ class ClosetPiece(db.Model):
     year_made = db.Column(db.Integer, index=True, unique=False, nullable=True)
 
     # credit/acquisition info
-    acquisition = db.Column(db.Integer, db.ForeignKey("acquisition.id"))
+    acquisition_id = db.Column(db.Integer, db.ForeignKey("acquisition.id"))
 
     # ____ relationships _____
 
@@ -80,9 +80,19 @@ class ClosetPiece(db.Model):
     media = db.relationship("Media", back_populates="closet_piece", cascade="all, delete-orphan")
 
     # ___ functions ____
+
+    def __init__(self, name, category, brand=None, year_made=None, acquisition_id=None):
+        self.name = name
+        self.category = category
+        self.brand = brand
+        self.year_made = year_made
+        self.acquisition_id = acquisition_id
+
+        self.generate_piece_code()
+
     def generate_piece_code(self, category):
         count = ClosetPiece.query.filter_by(category=category).count()
-        return f"{category}_{count + 1}"
+        self.code = f"{self.category}_{count + 1}"
 
     # ____ helper properties for images _____
     @property

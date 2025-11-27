@@ -6,5 +6,82 @@
 <p>not much to see here yet, but check out cataloged closet pieces in the nav bar above</p>
 <p>or add a piece here to your closet!</p>
 
+<div class="add_piece_form">
+    <form method="POST">
+        {{ form.csrf_token }}
+
+        <div class="form-section">
+            <h3>core info</h3>
+
+            <div class="form-row">
+                {{ form.name.label }}
+                {{ form.name() }}
+            </div>
+
+            <div class="form-row">
+                {{ form.category.label }}
+                {{ form.category() }}
+            </div>
+
+            <div class="form-row">
+                {{ form.brand.label }}
+                {{ form.brand() }}
+            </div>
+
+            <div class="form-row">
+                <span class="optional">optional:</span>
+                {{ form.year_made.label }}
+                {{ form.year_made() }}
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>acquisition info</h3>
+
+            <div class="form-row">
+                {{ form.credit_type.label }}
+                {{ form.credit_type() }}
+            </div>
+            
+            <div class = "form-row">
+                <p><strong>if thrift or purchase</strong></p>
+            </div>
+
+            <div class="form-row">
+                {{ form.store_name.label }}
+                {{ form.store_name() }}
+            </div>
+
+            <div class="form-row">
+                {{ form.store_location.label }}
+                {{ form.store_location() }}
+            </div>
+
+            <div class = "form-row">
+                <p><strong>if gift or loan</strong></p>
+            </div>
+
+            <div class="form-row">
+                {{ form.from_who.label }}
+                {{ form.from_who() }}
+            </div>
+            
+            <div class="form-row">
+                {{ form.year_acquired.label }}
+                {{ form.year_acquired() }}
+            </div>
+            
+            <div></div>
+            
+            <div class="submit-button">
+                {{ form.submit() }}
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+
 <a href="{{url_for('logout')}}">log out</a>
 {% endblock %}

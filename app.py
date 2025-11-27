@@ -29,7 +29,46 @@ def load_user(user_id):
 @app.route('/home', methods=["GET", "POST"])
 def index():
     if current_user.is_authenticated: 
-        return render_template("landing-admin.html", current_user=current_user)
+        form = AddClosetPieceForm()
+
+        #creating a piece on submit
+        if form.validate_on_submit():
+            name = form.name.data
+            category = form.category.data
+            brand = form.brand.data
+            year_made = form.year_made.data
+
+            #acquisition form info
+            year_acquired = form.year_acquired.data
+            credit_type = form.credit_type.data
+            store_name = form.store_name.data
+            store_location = form.store_location.data
+            from_who = form.from_who.data
+
+            acquisition = Acquisition(
+                year_acquired=year_acquired,
+                credit_type=credit_type,
+                store_name=store_name,
+                store_location=store_location,
+                from_who=from_who
+            )   
+
+            db.session.add(acquisition)
+            db.session.commit()
+
+            #generate piece code
+            new_piece = ClosetPiece(
+                name=name, 
+                category=category, 
+                brand=brand, 
+                year_made=year_made,
+                acquisition_id=acquisition.id
+            )
+
+            db.session.add(new_piece)
+            db.session.commit()
+
+        return render_template("landing-admin.html", current_user=current_user, form=form)
 
     else:
         return render_template("landing-public.html")
