@@ -6,7 +6,7 @@
     <body>
         <div class = "nav">
             <a href="{{ url_for('index') }}">home</a>
-            <a href="#">closet</a>
+            <a href="{{ url_for('closet_pieces') }}">closet</a>
             <a href="#">outfit logs</a>
         </div>
         {% with messages = get_flashed_messages() %}

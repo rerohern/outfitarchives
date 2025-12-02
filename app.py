@@ -68,6 +68,31 @@ def index():
             db.session.add(new_piece)
             db.session.commit()
 
+            #adding photos 
+            img_src = form.img_src.data
+            alt_text = form.alt_text.data
+
+            media = Media(
+                img_src = img_src,
+                alt_text = alt_text,
+                media_type = "piece",
+                closet_piece_id = new_piece.id
+            )
+
+            db.session.add(media)
+            db.session.commit()
+
+            flash(f"new closet piece added: {new_piece.name}!")
+
+        #if something doesn't work
+        elif request.method == "POST":
+            for field, errors in form.errors.items():
+                for error in errors:
+                    flash(
+                        f"Error in {getattr(form, field).label.text}: {error}",
+                        "danger"
+                    )
+
         return render_template("landing-admin.html", current_user=current_user, form=form)
 
     else:
@@ -123,7 +148,59 @@ def logout():
         flash("bye! xoxo", "info")
     return redirect(url_for("index"))
 
+@app.route('/closet-pieces', methods=["GET"])
+def closet_pieces():
+    pieces = ClosetPiece.query.all()
+
+    if current_user.is_authenticated:
+        return render_template("closet-pieces-admin.html", closet=pieces)
+    else:
+        return render_template("closet-pieces-public.html", closet=pieces)
+
+@app.route('/edit-closet-piece/<string:code>', methods=["GET", "POST"])
+def edit_closet_piece(code):
+    piece = ClosetPiece.query.filter_by(code=code).first()
+    form = AddClosetPieceForm(obj=piece) # pre-populate form with existing piece data
+
+    if current_user.is_authenticated:
+        # Prefill acquisition if it exists
+        if piece.acquisition_id and request.method == "GET":
+            form.year_acquired.data = piece.acquisition.year_acquired
+            form.credit_type.data = piece.acquisition.credit_type
+            form.store_name.data = piece.acquisition.store_name
+            form.store_location.data = piece.acquisition.store_location
+            form.from_who.data = piece.acquisition.from_who
+
+        if form.validate_on_submit():
+            # update piece fields
+            piece.name = form.name.data
+            piece.category = form.category.data
+            piece.brand = form.brand.data
+            piece.year_made = form.year_made.data or None  # optional integer
+
+            # update or create acquisition
+            if not piece.acquisition_id:
+                piece.acquisition_id = Acquisition()
+            acquisition = Acquisition.query.get(piece.acquisition_id)
+            if acquisition:
+                acquisition.year_acquired = form.year_acquired.data or None
+                acquisition.credit_type = form.credit_type.data
+                acquisition.store_name = form.store_name.data
+                acquisition.store_location = form.store_location.data
+                acquisition.from_who = form.from_who.data
+
+            db.session.commit()
+            flash(f"{piece.name} updated successfully!")
+            return redirect(url_for('closet_pieces'))
+
+        return render_template("edit-piece.html", form=form, piece=piece)
+   
+    else:
+        return render_template("unauthorized-public.html")
+
+
 if __name__ == "__main__":
     with app.app_context():
         # db.create_all()  # db already initialized, commented out but for future reference
         app.run(debug=True)
+

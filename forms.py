@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, IntegerField, TextAreaField, RadioField, SubmitField
-from wtforms.validators import DataRequired, EqualTo
+from wtforms.validators import DataRequired, EqualTo, Optional
 
 # set up form _________________________________________________________________________________
 
@@ -24,18 +24,19 @@ class AddClosetPieceForm(FlaskForm):
     #core info to create piece code
     name = StringField("item name", validators=[DataRequired()])
     category = RadioField("category", choices=[("tops", "tops"), ("bottoms", "bottoms"), ("shoes", "shoes"), ("dresses", "dresses"), ("accessories", "accessories")], validators=[DataRequired()])
-    brand = StringField("brand")
-    year_made = IntegerField("year made")
+    brand = StringField("brand", validators=[Optional()])
+    year_made = IntegerField("year made", validators=[Optional()])
 
     #acquisition info
     credit_type = RadioField("acquisition type", choices=[("purchase", "purchase"), ("thrift", "thrift"), ("loan", "loan"), ("gift", "gift")], validators=[DataRequired()])
-    store_name = StringField("store")
-    store_location = StringField("store location")
-    from_who = StringField("from who")
-    year_acquired = IntegerField("year acquired")
+    store_name = StringField("store", validators=[Optional()])
+    store_location = StringField("store location", validators=[Optional()])
+    from_who = StringField("from who", validators=[Optional()])
+    year_acquired = IntegerField("year acquired", validators=[Optional()])
 
     #media info
-    img_src = StringField("img src pathway")
+    img_src = StringField("img src pathway", render_kw={"placeholder": "e.g. media/folder/image-name.jpg"}, validators=[Optional()])
+    alt_text = StringField("alt text (200 char max)", validators=[Optional()])
 
     submit = SubmitField("add piece")
 

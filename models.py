@@ -39,6 +39,7 @@ class Media(db.Model):
     #core info
 
     img_src = db.Column(db.String(400), index=True, unique=True, nullable=True)
+    alt_text = db.Column(db.String(200), index=False, unique=False)
    
     #media types: piece, texture, outfit, outfit_alt, month
     media_type = db.Column(db.String(30), index=True, unique=False, nullable=True)
@@ -70,6 +71,7 @@ class ClosetPiece(db.Model):
 
     # credit/acquisition info
     acquisition_id = db.Column(db.Integer, db.ForeignKey("acquisition.id"))
+    acquisition = db.relationship("Acquisition", backref="closet_pieces", uselist=False)
 
     # ____ relationships _____
 
@@ -90,8 +92,8 @@ class ClosetPiece(db.Model):
 
         self.generate_piece_code()
 
-    def generate_piece_code(self, category):
-        count = ClosetPiece.query.filter_by(category=category).count()
+    def generate_piece_code(self):
+        count = ClosetPiece.query.filter_by(category=self.category).count()
         self.code = f"{self.category}_{count + 1}"
 
     # ____ helper properties for images _____
@@ -168,7 +170,7 @@ class Acquisition(db.Model):
     credit_type = db.Column(db.String(50), index=True, unique=False)
 
     #if purchase, thrift
-    store_name = db.Column(db.String(80), index=True, unique=True, nullable=True)
+    store_name = db.Column(db.String(80), index=True, unique=False, nullable=True)
     store_location = db.Column(db.String(180), index=True, unique=False, nullable=True)
 
     #if loan, gift

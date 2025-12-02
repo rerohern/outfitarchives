@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>oops! ur not logged in :o</h1>
+<p>pls log in to access this page</p>
+
+<a href="{{ url_for('login') }}">log in</a>
+
+{% endblock %}

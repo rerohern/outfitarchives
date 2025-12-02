@@ -70,13 +70,24 @@
                 {{ form.year_acquired.label }}
                 {{ form.year_acquired() }}
             </div>
-            
-            <div></div>
+        </div>
+        
+        <div class="form-section">
+            <h3>media info</h3>
+
+            <div class="form-row">
+                {{ form.img_src.label }}
+                {{ form.img_src() }}
+            </div>
+
+            <div class="form-row">
+                {{ form.alt_text.label }}
+                {{ form.alt_text() }}
+            </div>
             
             <div class="submit-button">
                 {{ form.submit() }}
             </div>
-
         </div>
 
     </form>
