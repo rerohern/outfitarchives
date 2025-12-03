@@ -159,45 +159,64 @@ def closet_pieces():
 
 @app.route('/edit-closet-piece/<string:code>', methods=["GET", "POST"])
 def edit_closet_piece(code):
-    piece = ClosetPiece.query.filter_by(code=code).first()
-    form = AddClosetPieceForm(obj=piece) # pre-populate form with existing piece data
+    piece = ClosetPiece.query.filter_by(code=code).first_or_404()
+    form = AddClosetPieceForm(obj=piece)  # pre-populate piece fields
 
-    if current_user.is_authenticated:
-        # Prefill acquisition if it exists
-        if piece.acquisition_id and request.method == "GET":
+    if not current_user.is_authenticated:
+        return render_template("unauthorized-public.html")
+
+    # Prefill acquisition and media fields on GET
+    if request.method == "GET":
+        # Acquisition
+        if piece.acquisition:
             form.year_acquired.data = piece.acquisition.year_acquired
             form.credit_type.data = piece.acquisition.credit_type
             form.store_name.data = piece.acquisition.store_name
             form.store_location.data = piece.acquisition.store_location
             form.from_who.data = piece.acquisition.from_who
 
-        if form.validate_on_submit():
-            # update piece fields
-            piece.name = form.name.data
-            piece.category = form.category.data
-            piece.brand = form.brand.data
-            piece.year_made = form.year_made.data or None  # optional integer
+        # Media (piece images)
+        media = piece.piece_images[0] if piece.piece_images else None
+        if media:
+            form.img_src.data = media.img_src
+            form.alt_text.data = media.alt_text
 
-            # update or create acquisition
-            if not piece.acquisition_id:
-                piece.acquisition_id = Acquisition()
-            acquisition = Acquisition.query.get(piece.acquisition_id)
-            if acquisition:
-                acquisition.year_acquired = form.year_acquired.data or None
-                acquisition.credit_type = form.credit_type.data
-                acquisition.store_name = form.store_name.data
-                acquisition.store_location = form.store_location.data
-                acquisition.from_who = form.from_who.data
+    if form.validate_on_submit():
+        # --- Update piece fields ---
+        piece.name = form.name.data
+        piece.category = form.category.data
+        piece.brand = form.brand.data
+        piece.year_made = form.year_made.data or None
 
-            db.session.commit()
-            flash(f"{piece.name} updated successfully!")
-            return redirect(url_for('closet_pieces'))
+        # --- Update or create acquisition ---
+        if piece.acquisition:
+            acquisition = piece.acquisition
+        else:
+            acquisition = Acquisition()
+            piece.acquisition = acquisition
+            db.session.add(acquisition)
 
-        return render_template("edit-piece.html", form=form, piece=piece)
+        acquisition.year_acquired = form.year_acquired.data or None
+        acquisition.credit_type = form.credit_type.data
+        acquisition.store_name = form.store_name.data
+        acquisition.store_location = form.store_location.data
+        acquisition.from_who = form.from_who.data
+
+        # --- Update or create media ---
+        media = piece.piece_images[0] if piece.piece_images else None
+        if not media:
+            media = Media(media_type="piece", closet_piece=piece)
+            db.session.add(media)
+
+        media.img_src = form.img_src.data
+        media.alt_text = form.alt_text.data
+
+        db.session.commit()
+        flash(f"{piece.name} updated successfully!", "success")
+        return redirect(url_for('closet_pieces'))
+
+    return render_template("edit-piece.html", form=form, piece=piece)
    
-    else:
-        return render_template("unauthorized-public.html")
-
 
 if __name__ == "__main__":
     with app.app_context():
