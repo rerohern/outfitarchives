@@ -67,7 +67,7 @@ class ClosetPiece(db.Model):
     name = db.Column(db.String(100), index=True, unique=False)
     category = db.Column(db.String(50), index=True, unique=False)
     brand = db.Column(db.String(80), index=True, unique=False, nullable=True)
-    year_made = db.Column(db.Integer, index=True, unique=False, nullable=True)
+    year_made = db.Column(db.String(10), index=True, unique=False, nullable=True)
 
     # credit/acquisition info
     acquisition_id = db.Column(db.Integer, db.ForeignKey("acquisition.id"))
