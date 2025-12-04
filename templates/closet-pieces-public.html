@@ -25,11 +25,15 @@
                 {% else %}
                     <h3>{{ piece.name }}</h3>
                 {% endif %}
-                
+
                 {% if piece.year_made %}
                     <p>by {{ piece.brand }}, {{ piece.year_made }}</p>
                 {% else %}
-                    <p>by {{ piece.brand }}</p>
+                    {% if piece.brand %}
+                        <p>by {{ piece.brand }}</p>
+                    {% else %}
+                        <p>by unknown designer</p>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

@@ -25,17 +25,17 @@
                 {% else %}
                     <h3>{{ piece.name }}</h3>
                 {% endif %}
-                
+
                 {% if piece.year_made %}
                     <p>by {{ piece.brand }}, {{ piece.year_made }}</p>
                 {% else %}
-                    <p>by {{ piece.brand }}</p>
+                    {% if piece.brand %}
+                        <p>by {{ piece.brand }}</p>
+                    {% else %}
+                        <p>by unknown designer</p>
+                    {% endif %}
                 {% endif %}
-                <p>test: {{ piece.acquisition_id.year_acquired }}</p>
-                <p>test: {{ piece.code }}</p>
-            </div>
-            <div class = "cpl-actions">
-                <a href="{{ url_for('edit_closet_piece', code = piece.code) }}">edit</a>
+                <a class="button" href="{{ url_for('edit_closet_piece', code = piece.code) }}">edit</a>
             </div>
         </div>
 

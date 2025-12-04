@@ -10,39 +10,64 @@ h1 {
     color: pink;
 }
 
+/* button styling ______________________________________________________________________________ */
+.button {
+    border: black 1px solid;
+    border-radius: 12px;
+    align-content: center;
+    justify-content: center;
+    padding: 2%;
+    text-decoration: none;
+}
+
+.button:hover {
+    background-color: black;
+    color: blanchedalmond;
+}
+
+.button:visited {
+    text-decoration: none;
+}
+
+
 /* add nav styling here at some point, like hover links and on click and once clicked */
 
 
 /* closet piece page ______________________________________________________________________________ */
 
 .closet-piece-list-container{
-    width: 100%;
-    height: 80%;
+    width: 96%;
+    height: 90%;
     bottom: 0%;
     overflow-y: scroll;
     /* add scroll colors and details here */
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
-    grid-template-rows: auto;
+    grid-template-rows: minmax(33%, auto);
     background-color: plum;
+    gap: 2%;
+    margin: 2%;
 }
 
 .closet-piece-container{
-    border: white dashed 2px;
-    background-color: burlywood;
+    background-color: whitesmoke;
     display: grid;
     grid-template-rows: 60% 40%;
     width: 100%;
-    height: 100%;
+    height: 50%;
+    border-radius: 10px;
 }
 
 .cpl-image {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 90%;
     height: 100%;
     overflow: hidden;
+    background-color:lightgray;
+    margin: 5%;
+    border-radius: 10px;
 }
 
 .cpl-image-content {
@@ -58,9 +83,24 @@ h1 {
 } 
 
 .cpl-text{
-    width: 100%;
-    height: 40%;
+    width: 90%;
+    height: 90%;
     position: relative;
     align-items: center;
-    border: blue dashed 2px;
+    /* border: blue dashed 2px;*/
+    margin: 5%;
+}
+
+/* adding a piece ______________________________________________________________________________ */
+.add-piece-form{
+    width: 96%;
+    height: 80%;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 80% 20%;
+    background-color: plum;
+}
+
+.form-section{
+    border: darkcyan dashed 2px;
 }
