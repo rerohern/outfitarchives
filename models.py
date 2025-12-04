@@ -68,6 +68,8 @@ class ClosetPiece(db.Model):
     category = db.Column(db.String(50), index=True, unique=False)
     brand = db.Column(db.String(80), index=True, unique=False, nullable=True)
     year_made = db.Column(db.String(10), index=True, unique=False, nullable=True)
+    deaccessioned = db.Column(db.Boolean, default=False, index=True, unique=False, nullable=True)
+    deaccessioned_notes = db.Column(db.String(100), unique=False, nullable=True)
 
     # credit/acquisition info
     acquisition_id = db.Column(db.Integer, db.ForeignKey("acquisition.id"))

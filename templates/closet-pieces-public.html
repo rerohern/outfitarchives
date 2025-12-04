@@ -20,7 +20,12 @@
                 {% endif %}
             </div>
             <div class = "cpl-text">
-                <h3>{{ piece.name }}</h3>
+                {% if piece.deaccessioned == True %}
+                    <h3>{{ piece.name }} (deaccessioned)</h3>
+                {% else %}
+                    <h3>{{ piece.name }}</h3>
+                {% endif %}
+                
                 {% if piece.year_made %}
                     <p>by {{ piece.brand }}, {{ piece.year_made }}</p>
                 {% else %}

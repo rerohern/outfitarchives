@@ -187,6 +187,8 @@ def edit_closet_piece(code):
         piece.category = form.category.data
         piece.brand = form.brand.data
         piece.year_made = form.year_made.data or None
+        piece.deaccessioned = form.deaccessioned.data
+        piece.deaccessioned_notes = form.deaccessioned_notes.data or None
 
         # --- Update or create acquisition ---
         if piece.acquisition:

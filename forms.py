@@ -34,9 +34,14 @@ class AddClosetPieceForm(FlaskForm):
     from_who = StringField("from who", validators=[Optional()])
     year_acquired = IntegerField("year acquired", validators=[Optional()])
 
+    #deaccession info
+    deaccessioned = BooleanField("deaccessioned", validators=[Optional()])
+    deaccessioned_notes = StringField("notes", validators=[Optional()])
+
     #media info
     img_src = StringField("img src pathway", render_kw={"placeholder": "e.g. media/folder/image-name.jpg"}, validators=[Optional()])
     alt_text = StringField("alt text (200 char max)", validators=[Optional()])
+
 
     submit = SubmitField("add piece")
 

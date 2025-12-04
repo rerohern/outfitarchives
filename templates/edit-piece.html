@@ -68,6 +68,20 @@
                 {{ form.year_acquired() }}
             </div>
         </div>
+
+        <div class="form-section">
+            <h3>deaccession info</h3>
+
+            <div clas="form-row">
+                {{ form.deaccessioned.label }}
+                {{ form.deaccessioned() }}
+            </div>
+
+            <div class="form-row">
+                {{ form.deaccessioned_notes.label }}
+                {{ form.deaccessioned_notes() }}
+            </div>
+        </div>
         
         <div class="form-section">
             <h3>media info</h3>
@@ -83,7 +97,7 @@
             </div>
             
             <div class="submit-button">
-                {{ form.submit() }}
+                {{ form.submit(value="edit piece") }}
             </div>
         </div>
 
