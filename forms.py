@@ -25,7 +25,7 @@ class AddClosetPieceForm(FlaskForm):
     name = StringField("item name", validators=[DataRequired()])
     category = RadioField("category", choices=[("tops", "tops"), ("bottoms", "bottoms"), ("shoes", "shoes"), ("dresses", "dresses"), ("accessories", "accessories")], validators=[DataRequired()])
     brand = StringField("brand", validators=[Optional()])
-    year_made = IntegerField("year made", validators=[Optional()])
+    year_made = StringField("year made", validators=[Optional()])
 
     #acquisition info
     credit_type = RadioField("acquisition type", choices=[("purchase", "purchase"), ("thrift", "thrift"), ("loan", "loan"), ("gift", "gift")], validators=[DataRequired()])
@@ -43,5 +43,4 @@ class AddClosetPieceForm(FlaskForm):
     alt_text = StringField("alt text (200 char max)", validators=[Optional()])
 
 
-    submit = SubmitField("add piece")
-
+    submit = SubmitField("add piece", render_kw={"class": "form-submit-button"})
