@@ -13,7 +13,7 @@ class SetPasswordForm(FlaskForm):
 
 class LogInForm(FlaskForm):
     username = StringField("username", default="rero", render_kw={"type": "hidden"})
-    password = PasswordField("password", validators=[DataRequired()])
+    password = PasswordField("password", validators=[DataRequired()], render_kw={"placeholder": "type password here"})
     remember_me = BooleanField("remember me")
     submit = SubmitField("access archive")
 

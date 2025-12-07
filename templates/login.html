@@ -1,25 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="login-container">
+    <h1>let's access your archive <3</h1>
 
-<h1>let's access your archive <3</h1>
+    <div class="login-form">
+        <form method="POST">
+            {{ form.csrf_token }}
 
-<div class="login-form">
-    <form method="POST">
-        {{ form.csrf_token }}
-
-        <table>
-            <tr>
-                <td>{{ form.password.label }}</td>
-                <td>{{ form.password() }}</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="form-button">
-                    {{ form.submit() }}
-                </td>
-            </tr>
-        </table>
-    </form>
+            <table>
+                <tr>
+                    <!-- <td>{{ form.password.label(class="login-label") }}</td> -->
+                    <td>{{ form.password(class="login-label") }}</td>
+                </tr>
+                <tr>
+                    <td class="form-submit-button">
+                        {{ form.submit() }}
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
 </div>
-
 {% endblock %}

@@ -5,9 +5,13 @@
     </head>
     <body>
         <div class = "nav">
-            <a href="{{ url_for('index') }}">home</a>
-            <a href="{{ url_for('closet_pieces') }}">closet</a>
-            <a href="#">outfit logs</a>
+            <div class="nav-left"></div>
+            <div class="nav-center">
+                <a href="{{ url_for('index') }}">home</a>
+                <a href="{{ url_for('closet_pieces') }}">closet</a>
+                <a href="#">outfit logs</a>
+            </div>
+            <div class="nav-right"></div>
         </div>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -18,9 +22,11 @@
                 </ul>
             {% endif %}
         {% endwith %}
-
-        {% block content %}
-        {% endblock %}
+        
+        <div class="content-container">
+            {% block content %}
+            {% endblock %}
+        </div>
     </body>
 </html>
 
