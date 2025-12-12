@@ -103,10 +103,10 @@ a:active {
     /* add scroll colors and details here */
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: minmax(33%, auto);
+    grid-template-rows: 1fr;
     /* background-color: plum; */
-    gap: 2%;
-    margin: 2%;
+    column-gap: 3%;
+    row-gap: 10%;
 }
 
 .closet-piece-container{
@@ -114,9 +114,11 @@ a:active {
     display: grid;
     grid-template-rows: 60% 40%;
     width: 100%;
-    height: 55%;
+    height: 100%;
     border-radius: 10px;
+    padding: 5%;
     border: tan 2px solid; 
+    margin: 2%;
 }
 
 .cpl-image {
@@ -138,7 +140,7 @@ a:active {
 
 .cpl-image img {
     width: 80%;
-    height: auto;
+    height: 100%;;
     object-fit: contain;   /* this keeps the image contained */
     display: block;
 } 
@@ -209,6 +211,35 @@ a:active {
 
 .add-piece-input::placeholder {
     color: tan;
+}
+
+.edit-button{
+    color: tan;
+    all: unset;
+    appearance: none;
+    color: white;
+    -webkit-appearance: none;
+    border: 1px solid blanchedalmond;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2%;
+    text-decoration: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: transform 0.15s, background-color 0.15s;
+    box-sizing: border-box;
+}
+
+.edit-button:hover {
+    background-color: blanchedalmond;
+    color: black;
+    transform: scale(1.1);
+}
+
+.edit-button:active {
+    transform: scale(0.95);
 }
 
 /* editing a piece ______________________________________________________________________________ */
