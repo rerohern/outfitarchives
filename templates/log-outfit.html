@@ -1,23 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="build-outfit-container">
-<h1>let's build an outfit!</h1>
-<p>insert search field here for outfit pieces. when you select, it will add to a temp list that is then displayed, and on submit, that then enters the piece list as the entry for the submit-outfit-form. allow for edits like adding more pieces or removing pieces from outfit before submitting</p>
+<h1>log an outfit!</h1>
+<p>see yellow notebooks for more notes on how the forms will work</p>
 
-<input
-  type="text"
-  id="piece-search"
-  placeholder="Search pieces..."
-/>
+<div class="outfit-builder-container">
+  <form method="POST" class="outfit-builder-form">
+    {{ form.csrf_token }}
 
-<div id="search-results"></div>
+    <div class="form-row">
+      {{ form.date_worn.label(class="add-piece-label") }}
+      {{ form.date_worn(class="add-poiece-input") }}
+    </div>
 
-<div class="outfit-form">
-    <p>insert form here about date, notes, tags for outfit.</p>
+    <div class="form-row">
+      <p>selected pieces: </p>
+    </div>
+    <div class="form-row">
+      <p>add piece: </p>
+      <p>search bar here</p>
+      <p>search results populate here as you type - see figma</p>
+    </div>
+
+    <div class="form-row">
+      {{ form.notes.label(class="add-piece-label") }}
+      {{ form.notes(class="add-pioece-input") }}
+    </div>
+
+    <div class="form-row">
+      {{ form.tags.label(class="add-piece-label") }}
+      {{ form.tags(class="add-piece-label") }}
+    </div>
+
+    <div class="form-row">
+      {{ form.submit(value="add outfit") }}
+    </div>
+  </form>
+
 </div>
-
-</div>
-
 
 {% endblock %}

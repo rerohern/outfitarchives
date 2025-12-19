@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, IntegerField, TextAreaField, RadioField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, IntegerField, TextAreaField, RadioField, DateField, SubmitField
 from wtforms.validators import DataRequired, EqualTo, Optional
 
 # set up form _________________________________________________________________________________
@@ -44,3 +44,17 @@ class AddClosetPieceForm(FlaskForm):
 
 
     submit = SubmitField("add piece", render_kw={"class": "form-submit-button"})
+
+# add Outfit form _________________________________________________________________________________
+
+class LogOutfitForm(FlaskForm):
+    #core info to create outfit code
+    date_worn = DateField("date worn", validators=[DataRequired()])
+
+    #outfit details
+    notes = TextAreaField("notes", validators=[Optional()])
+    tags = StringField("tags", validators=[Optional()])
+
+    #piece selection handled by JS
+
+    submit = SubmitField("add outfit", render_kw={"class": "form-submit-button"})

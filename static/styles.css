@@ -95,6 +95,10 @@ a:active {
 }
 
 /* closet piece page ______________________________________________________________________________ */
+#closet-page-add-piece-button{
+    width: 40px;
+    height: 20px;
+}
 
 .closet-piece-list-container{
     width: 95%;
@@ -217,7 +221,6 @@ a:active {
     color: tan;
     all: unset;
     appearance: none;
-    color: white;
     -webkit-appearance: none;
     border: 1px solid blanchedalmond;
     border-radius: 12px;
@@ -278,6 +281,21 @@ a:active {
     max-width: 80%;
     height: auto;
     object-fit: contain;
+}
+
+/* log outfit page styling ______________________________________________________________________________ */
+.outfit-builder-container{
+    width: 80wh;
+    height: 70vh;
+    display: grid;
+    background-color: tan;
+    border-radius: 65px;
+    padding: 10px;
+}
+
+.outfit-builder-form{
+    border: lightcoral 2px dashed;
+    margin: 10px;
 }
 
 /* login page ______________________________________________________________________________ */

@@ -3,6 +3,7 @@
 {% block content %}
 
 <h1>closet pieces</h1>
+<a class="edit-button" href="{{ url_for('index') }}">add new piece</a>
 
 <div class = "closet-piece-list-container">
     {% for piece in closet %}
@@ -35,7 +36,7 @@
                         <p>by unknown designer</p>
                     {% endif %}
                 {% endif %}
-                <a class="button" href="{{ url_for('edit_closet_piece', code = piece.code) }}">edit</a>
+                <a class="edit-button" href="{{ url_for('edit_closet_piece', code = piece.code) }}">edit</a>
             </div>
         </div>
 

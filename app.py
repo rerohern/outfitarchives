@@ -219,6 +219,11 @@ def edit_closet_piece(code):
 
     return render_template("edit-piece.html", form=form, piece=piece)
    
+@app.route('/log-outfit', methods=["GET", "POST"])
+def log_outfit():
+    form = LogOutfitForm()
+
+    return render_template("log-outfit.html", form=form)
 
 if __name__ == "__main__":
     with app.app_context():
