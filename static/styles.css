@@ -95,9 +95,12 @@ a:active {
 }
 
 /* closet piece page ______________________________________________________________________________ */
-#closet-page-add-piece-button{
-    width: 40px;
-    height: 20px;
+.closet-piece-top-buttons{
+    display: inline-grid;
+    width: 100%;
+    grid-template-columns: 20% 20% 20% 20%;
+    gap: 5%;
+    padding-bottom: 2%;
 }
 
 .closet-piece-list-container{
@@ -202,7 +205,7 @@ a:active {
 }
 
 /* removes radio button default styling */
-.add-piece-input-radio input[type="radio"] {
+.add-piece-input-radio input[type="radio"], .add-piece-input-checkbox {
     accent-color: peru;
     outline: none;
 }
@@ -216,6 +219,7 @@ a:active {
 .add-piece-input::placeholder {
     color: tan;
 }
+
 
 .edit-button{
     color: tan;
@@ -296,6 +300,10 @@ a:active {
 .outfit-builder-form{
     border: lightcoral 2px dashed;
     margin: 10px;
+}
+
+.selected-piece-search-js{
+    border: blueviolet 2px dashed;
 }
 
 /* login page ______________________________________________________________________________ */

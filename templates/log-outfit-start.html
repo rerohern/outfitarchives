@@ -1,19 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>log an outfit!</h1>
-<p>brb... refreshing up on javascript to make this part work!</p>
 
 <div class="outfit-builder-container">
   <form method="POST" class="outfit-builder-form">
     {{ form.csrf_token }}
 
     <div class="form-row">
-      {{ form.date_worn.label(class="add-piece-label") }}
+      <h1>log an outfit</h1>
       {{ form.date_worn(class="add-piece-input") }}
     </div>
 
-    <div class="selected-piece-search-js">
+    <div class="select-piece-searchbar">
       <div class="form-row">
         <p>selected pieces: </p>
       </div>

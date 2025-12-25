@@ -3,7 +3,14 @@
 {% block content %}
 
 <h1>closet pieces</h1>
-<a class="edit-button" href="{{ url_for('index') }}">add new piece</a>
+<div class="closet-piece-top-buttons">
+    <a class="edit-button" id="closet-page-add-piece-button" href="{{ url_for('index') }}">add new piece</a>
+    <a class="edit-button" href="{{ url_for('log_outfit') }}">log outfit</a>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+
 
 <div class = "closet-piece-list-container">
     {% for piece in closet %}

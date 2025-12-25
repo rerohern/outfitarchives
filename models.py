@@ -170,8 +170,6 @@ class Acquisition(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     year_acquired = db.Column(db.Integer, index=True, unique=False)
     credit_type = db.Column(db.String(50), index=True, unique=False)
-
-    #if purchase, thrift
     store_name = db.Column(db.String(80), index=True, unique=False, nullable=True)
     store_location = db.Column(db.String(180), index=True, unique=False, nullable=True)
 

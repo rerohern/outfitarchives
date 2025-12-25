@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, IntegerField, TextAreaField, RadioField, DateField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, IntegerField, TextAreaField, RadioField, DateField, SubmitField, HiddenField
 from wtforms.validators import DataRequired, EqualTo, Optional
+from datetime import date
 
 # set up form _________________________________________________________________________________
 
@@ -49,7 +50,7 @@ class AddClosetPieceForm(FlaskForm):
 
 class LogOutfitForm(FlaskForm):
     #core info to create outfit code
-    date_worn = DateField("date worn", validators=[DataRequired()])
+    date_worn = DateField("date worn", default=date.today, validators=[DataRequired()])
 
     #outfit details
     notes = TextAreaField("notes", validators=[Optional()])
@@ -58,3 +59,24 @@ class LogOutfitForm(FlaskForm):
     #piece selection handled by JS
 
     submit = SubmitField("add outfit", render_kw={"class": "form-submit-button"})
+
+# add Outfit Media forms ________________________________________________________________________________
+
+class BaseMediaForm(FlaskForm):
+    #image base
+    img_src = StringField("img src pathway", render_kw={"placeholder": "e.g. media/folder/image-name.jpg"}, validators=[Optional()])
+    alt_text = StringField("alt text (200 char max)", validators=[Optional()])
+    media_type = HiddenField()
+    view = HiddenField()
+
+class OutfitMediaForm(BaseMediaForm):
+    pass
+
+class AltOutfitMediaForm(BaseMediaForm):
+    pass
+
+class OutfitTextureMediaForm(BaseMediaForm):
+    pass
+
+
+
