@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>step 2 of adding an outfit!</h1>
+<p>notes: i really don't want to figure out the logic and JS for adding pieces but i will at least add the base formatting!</p>
+<p>add some conditional code here if 'special_toggle', add star next to date</p>
+
+<div class="outfit-builder-container">
+  <div>
+    {{ outfit['date_worn'] }}
+  </div>
+  <div class="outfit-builder-step-two">
+    <div class="select-piece-searchbar selected-piece-search-js">
+      <div class="form-row">
+        <p>selected pieces: </p>
+      </div>
+      <div class="form-row">
+        <p>add piece: </p>
+        <p>search bar here</p>
+        <p>search results populate here as you type - see figma</p>
+      </div>
+    </div>
+
+    <div class="selected-piece-display">
+      <p>tops go here</p>
+      <p>bottoms go here</p>
+      <p>accessories go here</p>
+      <p>shoes go here</p>
+    </div>
+  </div>
+  <p>next button: to step 3 where on click the pieces are finalized and u move on to adding notes and tags</p>
+</div>
+
+{% endblock %}

@@ -51,6 +51,7 @@ class AddClosetPieceForm(FlaskForm):
 class LogOutfitForm(FlaskForm):
     #core info to create outfit code
     date_worn = DateField("date worn", default=date.today, validators=[DataRequired()])
+    special_toggle = BooleanField("special outfit", validators=[Optional()])
 
     #outfit details
     notes = TextAreaField("notes", validators=[Optional()])

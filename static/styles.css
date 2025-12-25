@@ -306,6 +306,26 @@ a:active {
     border: blueviolet 2px dashed;
 }
 
+#log-outfit-date-input{
+    background-color: transparent;
+    border: transparent;
+    color: white;
+    font-size: 60px;
+}
+
+/* ____ step two ___________________________________ */
+
+.outfit-builder-step-two{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.selected-piece-display{
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 25% 25% 25% 25%;
+    border: cornsilk 2px dashed;
+}
 /* login page ______________________________________________________________________________ */
 .login-container{
     background-color: tan;

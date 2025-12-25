@@ -219,11 +219,52 @@ def edit_closet_piece(code):
 
     return render_template("edit-piece.html", form=form, piece=piece)
    
-@app.route('/log-outfit', methods=["GET", "POST"])
-def log_outfit():
+@app.route('/log-outfit-base', methods=["GET", "POST"])
+def log_outfit_base():
     form = LogOutfitForm()
 
     return render_template("log-outfit.html", form=form)
+
+# multi route log outfit _______________________________________________________________________________
+@app.route('/log-outfit', methods=["GET", "POST"])
+def log_outfit():
+    if 'outfit_data' not in session:
+        session['outfit_data'] = {
+            'date': '',
+            'special_toggle': False,
+            'pieces': [], #piece id 
+            'tags': [], #list of tags
+            'notes': '',
+            'media': [] # list of media dicts: {img_src, alt_text, media_type, view}
+        }
+
+    outfit = session['outfit_data']    
+    form = LogOutfitForm()
+
+    if form.validate_on_submit():
+        outfit['date'] = form.date_worn.data
+        outfit['special_toggle'] = form.special_toggle.data
+
+        #handling special_taggle 
+        if outfit['special_toggle'] and 'special' not in outfit['tags']:
+            outfit['tags'].append('special')
+        elif not outfit['special_toggle'] and 'special' in outfit['tags']:
+            outfit['tags'].remove('special')
+        
+        session['outfit_data'] = outfit
+        return redirect(url_for('log_outfit_step_two')) 
+    
+    return render_template('log-outfit-start.html', form=form)
+
+@app.route('/log-outfit/step-2', methods=["GET", "POST"])
+def log_outfit_step_two():
+    if "outfit_data" in session: 
+        outfit = session["outfit_data"]
+        return render_template('log-outfit-add-pieces.html', outfit=outfit)
+    
+    else: 
+        return redirect(url_for('log_outfit'))
+    
 
 if __name__ == "__main__":
     with app.app_context():
