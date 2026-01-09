@@ -12,8 +12,9 @@ h1 {
 
 .content-container{
     width: 98%;
-    height: 80%;
+    height: 90%;
     /* background-color: wheat; */
+    border: 2px dashed red;
     margin: 1%;
 }
 
@@ -48,21 +49,27 @@ a:active {
     gap: 30px;
 }
 
-.nav a, .nav a:visited {
+.nav a, .nav a:visited, .footer a, .footer a:visited {
     display: inline-block;
     text-decoration: none;
     color: tan;
     /* transition: transform 0.1s, color 0.1s; */
 }
 
-.nav a:hover {
+.nav a:hover, .footer a:hover {
     color: peru;
     transform: scale(1.1); 
 }
 
-.nav a:active{
+.nav a:active, .footer a:active {
     color: peru;
     transform: scale(0.95);
+}
+
+.footer {
+    width: 100%;
+    justify-self: center;
+    text-align: center;
 }
 
 /* button styling ______________________________________________________________________________ */
@@ -95,6 +102,14 @@ a:active {
 }
 
 /* closet piece page ______________________________________________________________________________ */
+
+.page-container{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    border: purple dashed 2px;
+}
+
 .closet-piece-top-buttons{
     display: inline-grid;
     width: 100%;
@@ -104,15 +119,15 @@ a:active {
 }
 
 .closet-piece-list-container{
-    width: 95%;
-    height: 85vh;
+    width: 100%;
+    height: 100%;
     overflow-y: scroll;
     /* add scroll colors and details here */
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: 1fr;
     /* background-color: plum; */
-    column-gap: 3%;
+    column-gap: 2%;
     row-gap: 10%;
 }
 
@@ -120,12 +135,11 @@ a:active {
     background-color: transparent;
     display: grid;
     grid-template-rows: 60% 40%;
-    width: 100%;
+    width: 85%;
     height: 100%;
     border-radius: 10px;
     padding: 5%;
     border: tan 2px solid; 
-    margin: 2%;
 }
 
 .cpl-image {
@@ -253,19 +267,28 @@ a:active {
 
 .edit-piece-container{
     width: 100%;
-    height: 80vh;
+    height: 100%;
     display: grid;
     grid-template-columns: 50% 40%;
+    grid-template-rows: 100%;
     gap: 15px;
+    background-color: brown;
+    object-fit: contain;
 }
 
 .edit-piece-container h3{
     color: white;
 }
 
+.edit-piece-container-object{
+    max-height: 100%;
+    width: 100%;
+    border: greenyellow 2px solid;
+}
+
 .edit-piece-form{
     width: 100%;
-    height: 100%;
+    height: 95%;
     display: grid;
     grid-template-columns: 50% 50%;
     grid-template-rows: 60% 20% 10%;
@@ -283,8 +306,9 @@ a:active {
 
 .edit-piece-image img{
     max-width: 80%;
-    height: auto;
+    max-height: 70%;
     object-fit: contain;
+    align-self: center;
 }
 
 /* log outfit page styling ______________________________________________________________________________ */
@@ -347,13 +371,25 @@ a:active {
     justify-content: center;
 }
 
+.login-form-table{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+}
+
+.login-form-row td{
+    width: 100%;
+    text-align: center;
+}
+
 .login-label{
     color: tan;
     justify-self: center;
     border-radius: 65px;
     border: none;
     padding: 10px;
-    margin: 10px;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 .login-label:focus{

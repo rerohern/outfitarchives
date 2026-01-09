@@ -1,125 +1,125 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>edit piece: {{ piece.name }}</h1>
+<div class="page-container">
+    <h1>edit piece: {{ piece.name }}</h1>
+    <div class="edit-piece-container">
+        <div class="edit-piece-image edit-piece-container-object">
+            {% if piece.media %}
+                        <img 
+                            src="{{ url_for('static', filename=piece.piece_images[0].img_src) }}"
+                            alt="{{ piece.name }}"
+                        >
+                    {% else %}
+                        <div class="cpl-no-image">
+                            <p>no image a drawing to come here soon :p</p>
+                        </div>
+                    {% endif %}
+        </div>
 
-<div class="edit-piece-container">
-    <div class="edit-piece-image">
-        {% if piece.media %}
-                    <img 
-                        src="{{ url_for('static', filename=piece.piece_images[0].img_src) }}"
-                        alt="{{ piece.name }}"
-                    >
-                {% else %}
-                    <div class="cpl-no-image">
-                        <p>no image a drawing to come here soon :p</p>
+        <div class="edit-piece-container-object">
+            <form method="POST" class="edit-piece-form">
+                {{ form.csrf_token }}
+                
+                <div class="form-section">
+                    <h3>core info</h3>
+        
+                    <div class="form-row">
+                        {{ form.name.label(class="add-piece-label") }}
+                        {{ form.name(class="add-piece-input") }}
                     </div>
-                {% endif %}
-    </div>
+        
+                    <div class="form-row">
+                        {{ form.category.label(class="add-piece-label") }}
+                        {{ form.category(class="add-piece-input-radio") }}
+                    </div>
+        
+                    <div class="form-row">
+                        {{ form.brand.label(class="add-piece-label") }}
+                        {{ form.brand(class="add-piece-input") }}
+                    </div>
+        
+                    <div class="form-row">
+                        {{ form.year_made.label(class="add-piece-label") }}
+                        {{ form.year_made(class="add-piece-input") }}
+                    </div>
+                </div>
+        
+                <div class="form-section">
+                    <h3>acquisition info</h3>
+        
+                    <div class="form-row">
+                        {{ form.credit_type.label(class="add-piece-label") }}
+                        {{ form.credit_type(class="add-piece-input-radio") }}
+                    </div>
+                    
+                    <div class = "form-row">
+                        <h4><strong>if thrift or purchase</strong></h4>
+                    </div>
+        
+                    <div class="form-row">
+                        {{ form.store_name.label(class="add-piece-label") }}
+                        {{ form.store_name(class="add-piece-input") }}
+                    </div>
+        
+                    <div class="form-row">
+                        {{ form.store_location.label(class="add-piece-label") }}
+                        {{ form.store_location(class="add-piece-input") }}
+                    </div>
 
-    <div>
-        <form method="POST" class="edit-piece-form">
-            {{ form.csrf_token }}
-            
-            <div class="form-section">
-                <h3>core info</h3>
-    
-                <div class="form-row">
-                    {{ form.name.label(class="add-piece-label") }}
-                    {{ form.name(class="add-piece-input") }}
+                    <div class="form-row">
+                        {{ form.year_acquired.label(class="add-piece-label") }}
+                        {{ form.year_acquired(class="add-piece-input") }}
+                    </div>
+        
+                    <div class = "form-row">
+                        <h4><strong>if gift or loan</strong></h4>
+                    </div>
+        
+                    <div class="form-row">
+                        {{ form.from_who.label(class="add-piece-label") }}
+                        {{ form.from_who(class="add-piece-input") }}
+                    </div>
                 </div>
-    
-                <div class="form-row">
-                    {{ form.category.label(class="add-piece-label") }}
-                    {{ form.category(class="add-piece-input-radio") }}
-                </div>
-    
-                <div class="form-row">
-                    {{ form.brand.label(class="add-piece-label") }}
-                    {{ form.brand(class="add-piece-input") }}
-                </div>
-    
-                <div class="form-row">
-                    {{ form.year_made.label(class="add-piece-label") }}
-                    {{ form.year_made(class="add-piece-input") }}
-                </div>
-            </div>
-    
-            <div class="form-section">
-                <h3>acquisition info</h3>
-    
-                <div class="form-row">
-                    {{ form.credit_type.label(class="add-piece-label") }}
-                    {{ form.credit_type(class="add-piece-input-radio") }}
+        
+                <div class="form-section">
+                    <h3>deaccession info</h3>
+        
+                    <div class="form-row">
+                        {{ form.deaccessioned.label(class="add-piece-label") }}
+                        {{ form.deaccessioned(class="add-piece-input-checkbox") }}
+                    </div>
+        
+                    <div class="form-row">
+                        {{ form.deaccessioned_notes.label(class="add-piece-label") }}
+                        {{ form.deaccessioned_notes(class="add-piece-input") }}
+                    </div>
                 </div>
                 
-                <div class = "form-row">
-                    <h4><strong>if thrift or purchase</strong></h4>
-                </div>
-    
-                <div class="form-row">
-                    {{ form.store_name.label(class="add-piece-label") }}
-                    {{ form.store_name(class="add-piece-input") }}
-                </div>
-    
-                <div class="form-row">
-                    {{ form.store_location.label(class="add-piece-label") }}
-                    {{ form.store_location(class="add-piece-input") }}
+                <div class="form-section">
+                    <h3>media info</h3>
+        
+                    <div class="form-row">
+                        {{ form.img_src.label(class="add-piece-label") }}
+                        {{ form.img_src(class="add-piece-input") }}
+                    </div>
+        
+                    <div class="form-row">
+                        {{ form.alt_text.label(class="add-piece-label") }}
+                        {{ form.alt_text(class="add-piece-input") }}
+                    </div>
                 </div>
 
-                <div class="form-row">
-                    {{ form.year_acquired.label(class="add-piece-label") }}
-                    {{ form.year_acquired(class="add-piece-input") }}
+                <div class="form-section">
+                    <div class="form-submit-button">
+                        {{ form.submit(value="edit piece") }}
+                    </div> 
                 </div>
-    
-                <div class = "form-row">
-                    <h4><strong>if gift or loan</strong></h4>
-                </div>
-    
-                <div class="form-row">
-                    {{ form.from_who.label(class="add-piece-label") }}
-                    {{ form.from_who(class="add-piece-input") }}
-                </div>
-            </div>
-    
-            <div class="form-section">
-                <h3>deaccession info</h3>
-    
-                <div class="form-row">
-                    {{ form.deaccessioned.label(class="add-piece-label") }}
-                    {{ form.deaccessioned(class="add-piece-input-checkbox") }}
-                </div>
-    
-                <div class="form-row">
-                    {{ form.deaccessioned_notes.label(class="add-piece-label") }}
-                    {{ form.deaccessioned_notes(class="add-piece-input") }}
-                </div>
-            </div>
-            
-            <div class="form-section">
-                <h3>media info</h3>
-    
-                <div class="form-row">
-                    {{ form.img_src.label(class="add-piece-label") }}
-                    {{ form.img_src(class="add-piece-input") }}
-                </div>
-    
-                <div class="form-row">
-                    {{ form.alt_text.label(class="add-piece-label") }}
-                    {{ form.alt_text(class="add-piece-input") }}
-                </div>
-            </div>
+        
+            </form>
+        </div>
 
-            <div class="form-section">
-                <div class="form-submit-button">
-                    {{ form.submit(value="edit piece") }}
-                </div> 
-            </div>
-    
-        </form>
     </div>
-
 </div>
-
 
 {% endblock %}

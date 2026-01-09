@@ -2,47 +2,47 @@
 
 {% block content %}
 
-<h1>closet pieces</h1>
+<div class="page-container">
+    <h1>closet pieces</h1>
 
-<div class = "closet-piece-list-container">
-    {% for piece in closet %}
-        <div class = "closet-piece-container">
-            <div class="cpl-image">
-                {% if piece.media %}
-                    <img 
-                        src="{{ url_for('static', filename=piece.piece_images[0].img_src) }}"
-                        alt="{{ piece.name }}"
-                    >
-                {% else %}
-                    <div class="cpl-no-image">
-                        <p>no image a drawing to come here soon :p</p>
-                    </div>
-                {% endif %}
-            </div>
-            <div class = "cpl-text">
-                {% if piece.deaccessioned == True %}
-                    <h3>{{ piece.name }} (deaccessioned)</h3>
-                {% else %}
-                    <h3>{{ piece.name }}</h3>
-                {% endif %}
-
-                {% if piece.year_made %}
-                    <p>by {{ piece.brand }}, {{ piece.year_made }}</p>
-                {% else %}
-                    {% if piece.brand %}
-                        <p>by {{ piece.brand }}</p>
+    <div class = "closet-piece-list-container">
+        {% for piece in closet %}
+            <div class = "closet-piece-container">
+                <div class="cpl-image">
+                    {% if piece.media %}
+                        <img 
+                            src="{{ url_for('static', filename=piece.piece_images[0].img_src) }}"
+                            alt="{{ piece.name }}"
+                        >
                     {% else %}
-                        <p>by unknown designer</p>
+                        <div class="cpl-no-image">
+                            <p>no image a drawing to come here soon :p</p>
+                        </div>
                     {% endif %}
-                {% endif %}
+                </div>
+                <div class = "cpl-text">
+                    {% if piece.deaccessioned == True %}
+                        <h3>{{ piece.name }} (deaccessioned)</h3>
+                    {% else %}
+                        <h3>{{ piece.name }}</h3>
+                    {% endif %}
+
+                    {% if piece.year_made %}
+                        <p>by {{ piece.brand }}, {{ piece.year_made }}</p>
+                    {% else %}
+                        {% if piece.brand %}
+                            <p>by {{ piece.brand }}</p>
+                        {% else %}
+                            <p>by unknown designer</p>
+                        {% endif %}
+                    {% endif %}
+                </div>
             </div>
-        </div>
 
-    {% endfor %}
+        {% endfor %}
 
-
+    </div>
 </div>
-
 
 
 {% endblock %}
