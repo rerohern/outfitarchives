@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify
 from extensions import db, csrf, login_manager
 from forms import *
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -23,8 +23,9 @@ from models import User, Media, ClosetPiece, Acquisition, OutfitPieces, Outfit
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# routes __________________________________________________________________________________
-
+#____________________________________________________________________________________________________
+# HOME PAGE
+#____________________________________________________________________________________________________
 @app.route('/', methods=["GET", "POST"])
 @app.route('/home', methods=["GET", "POST"])
 def index():
@@ -98,6 +99,9 @@ def index():
     else:
         return render_template("landing-public.html")
 
+#____________________________________________________________________________________________________
+# SETUP PAGE + USER MANAGEMENT | what's my password holy shit.. fashiontech?! fashiontech26? lol. 
+#____________________________________________________________________________________________________
 @app.route('/setup', methods=["GET", "POST"])
 def setup():
     if User.query.filter_by(username='rero').first():
@@ -148,6 +152,11 @@ def logout():
         flash("bye! xoxo", "info")
     return redirect(url_for("index"))
 
+#____________________________________________________________________________________________________
+# CLOSET PIECES PAGE
+#____________________________________________________________________________________________________
+
+# view route for closet pieces _______________________________________________________________________
 @app.route('/closet-pieces', methods=["GET"])
 def closet_pieces():
     pieces = ClosetPiece.query.all()
@@ -219,6 +228,35 @@ def edit_closet_piece(code):
 
     return render_template("edit-piece.html", form=form, piece=piece)
    
+#____________________________________________________________________________________________________
+# OUTFITS 
+#____________________________________________________________________________________________________
+
+# API route for ClosetPieces for outfit builder ________________________________________________________
+@app.route('/api/closet-pieces', methods=["GET"])
+def api_closet_pieces():
+    pieces = ClosetPiece.query.all()
+    return jsonify([
+        {
+            "id": piece.id,
+            "code": piece.code,
+            "name": piece.name,
+            "category": piece.category,
+            "brand": piece.brand,
+            "year_made": piece.year_made,
+            "year_acquired": piece.acquisition.year_acquired,
+            "deaccessioned": piece.deaccessioned,
+            "deaccessioned_notes": piece.deaccessioned_notes,
+            "credit_type": piece.acquisition.credit_type,
+            "store_name": piece.acquisition.store_name,
+            "store_location": piece.acquisition.store_location,
+            "from_who": piece.acquisition.from_who,
+            "img_src": piece.piece_images[0].img_src,
+            "alt_text": piece.piece_images[0].alt_text
+        }
+        for piece in pieces
+    ])
+
 @app.route('/log-outfit-base', methods=["GET", "POST"])
 def log_outfit_base():
     form = LogOutfitForm()
