@@ -162,9 +162,9 @@ def closet_pieces():
     pieces = ClosetPiece.query.all()
 
     if current_user.is_authenticated:
-        return render_template("closet-pieces-admin.html", closet=pieces)
+        return render_template("closet-pieces-admin.html", closet=pieces,  body_class="closet-landing")
     else:
-        return render_template("closet-pieces-public.html", closet=pieces)
+        return render_template("closet-pieces-public.html", closet=pieces,  body_class="closet-landing")
 
 @app.route('/edit-closet-piece/<string:code>', methods=["GET", "POST"])
 def edit_closet_piece(code):

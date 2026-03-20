@@ -2,6 +2,25 @@
 
 {% block content %}
 
+<div class="closet-sidebar">
+    <div class="dot-container">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    <div class="closet-sidebar-content">
+        <h2>filter closet!</h2>
+        <div class="search-container">
+            <input type="text" id="closet-search-input" placeholder="search by name or brand"/>
+        </div>
+        <a class="button filter-btn" data-category="tops">tops</a>
+        <a class="button filter-btn" data-category="bottoms">bottoms</a>
+        <a class="button filter-btn" data-category="shoes">shoes</a>
+        <a class="button filter-btn" data-category="dresses">dresses</a>
+        <a class="button filter-btn" data-category="accessories">accessories</a>
+        <a class="button filter-btn" data-category="all">all</a>
+    </div>
+</div>
 <div class="page-container">
     <h1>closet pieces</h1>
 
@@ -50,4 +69,4 @@
 </div>
 
 
-{% endblock %}
+{% endblock %} 

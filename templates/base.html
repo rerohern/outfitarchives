@@ -2,8 +2,9 @@
     <head>
         <title>reina's outfit archive</title>
         <link rel="stylesheet" href="/static/styles.css">
+        <script src="{{ url_for('static', filename='main.js') }}" defer></script>
     </head>
-    <body>
+    <body class="{{ body_class or '' }}">
         <div class = "nav">
             <div class="nav-left"></div>
             <div class="nav-center">

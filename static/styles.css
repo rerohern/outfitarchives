@@ -14,7 +14,7 @@ h1 {
     width: 98%;
     height: 90%;
     /* background-color: wheat; */
-    border: 2px dashed red;
+    /* border: 2px dashed red; */
     margin: 1%;
 }
 
@@ -102,12 +102,114 @@ a:active {
 }
 
 /* closet piece page ______________________________________________________________________________ */
-
-.page-container{
+body.closet-landing .content-container {
     width: 100%;
-    height: 100%;
+    height: 90%;
+    border: blue dashed 2px;
+    left: 0px;
     display: grid;
-    border: purple dashed 2px;
+    /* Sidebar (first child) and page container (second child) side-by-side */
+    grid-template-columns: max-content 1fr;
+    grid-template-rows: 1fr;
+    align-items: stretch;
+    column-gap: 5px;
+}
+
+/* Ensure deterministic grid placement */
+body.closet-landing .content-container > .closet-sidebar {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+body.closet-landing .content-container > .page-container {
+    grid-column: 2;
+    grid-row: 1;
+
+    min-height: 0; 
+    overflow: hidden;
+}
+
+
+.closet-sidebar{
+    height: 100%;
+    background-color: tan;
+    transition: width 0.3s ease;
+}
+
+.closet-sidebar{
+    width: 40px; /* collapsed */
+}
+
+.closet-sidebar.expanded{
+    width: 280px;
+    border: tan 2px dashed;
+}
+
+.closet-sidebar-content{
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2 ease 0.01s;
+}
+
+.closet-sidebar-content {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.closet-sidebar.expanded .closet-sidebar-content {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* sidebar invitation */ 
+/* Container to stack dots vertically */
+.dot-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  
+  /* Dots */
+  .dot {
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border-radius: 50%;
+    animation: float 3s ease-in-out infinite;
+    opacity: 1;                 /* visible by default */
+    transition: opacity 0.3s ease;
+  }
+  
+  /* Stagger for natural float */
+  .dot:nth-child(1) { animation-delay: 0s; }
+  .dot:nth-child(2) { animation-delay: 0.5s; }
+  .dot:nth-child(3) { animation-delay: 1s; }
+  
+  /* Float animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  
+  /* Hide dots when sidebar is expanded/hovered */
+  .closet-sidebar.expanded .dot,
+  .closet-sidebar:hover .dot {
+    opacity: 0;
+  }
+
+.page-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100%;
+    min-height: 0; /* important */
+}
+
+.page-container h1 {
+    margin: 10px 0px;
+    align-self: start;   /* prevents vertical stretching */
 }
 
 .closet-piece-top-buttons{
@@ -116,17 +218,17 @@ a:active {
     grid-template-columns: 20% 20% 20% 20%;
     gap: 5%;
     padding-bottom: 2%;
-}
+} 
 
-.closet-piece-list-container{
+.closet-piece-list-container {
     width: 100%;
     height: 100%;
-    overflow-y: scroll;
-    /* add scroll colors and details here */
+
+    overflow-y: auto; /* better than scroll */
+    min-height: 0; /* 🚨 also important */
+
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: 1fr;
-    /* background-color: plum; */
     column-gap: 2%;
     row-gap: 10%;
 }
@@ -136,7 +238,7 @@ a:active {
     display: grid;
     grid-template-rows: 60% 40%;
     width: 85%;
-    height: 100%;
+    height: clamp(320px, 40vw, 450px);
     border-radius: 10px;
     padding: 5%;
     border: tan 2px solid; 
@@ -173,6 +275,10 @@ a:active {
     align-items: center;
     /* border: blue dashed 2px;*/
     margin: 5%;
+}
+
+.hidden {
+    display: none;
 }
 
 /* adding a piece ______________________________________________________________________________ */
