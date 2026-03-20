@@ -100,7 +100,7 @@ def index():
         return render_template("landing-public.html")
 
 #____________________________________________________________________________________________________
-# SETUP PAGE + USER MANAGEMENT | what's my password holy shit.. fashiontech?! fashiontech26? lol. 
+# SETUP PAGE + USER MANAGEMENT | password: fashiontech
 #____________________________________________________________________________________________________
 @app.route('/setup', methods=["GET", "POST"])
 def setup():
