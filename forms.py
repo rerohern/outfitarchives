@@ -43,7 +43,7 @@ class AddClosetPieceForm(FlaskForm):
     img_src = StringField("img src pathway", render_kw={"placeholder": "e.g. media/folder/image-name.jpg"}, validators=[Optional()])
     alt_text = StringField("alt text (200 char max)", validators=[Optional()])
     texture_img_src = StringField("texture img src pathway", render_kw={"placeholder": "textured image"}, validators=[Optional()])
-    texture_alt_text = alt_text = StringField("alt text (200 char max)", validators=[Optional()])
+    texture_alt_text = StringField("alt text (200 char max)", validators=[Optional()])
 
 
     submit = SubmitField("add piece", render_kw={"class": "form-submit-button"})
@@ -51,17 +51,38 @@ class AddClosetPieceForm(FlaskForm):
 # add Outfit form _________________________________________________________________________________
 
 class LogOutfitForm(FlaskForm):
-    #core info to create outfit code
-    date_worn = DateField("date worn", default=date.today, validators=[DataRequired()])
-    special_toggle = BooleanField("special outfit", validators=[Optional()])
+    # --- Core info (used to generate outfit code) ---
+    date_worn = DateField(
+        "date worn",
+        default=date.today,
+        validators=[DataRequired()]
+    )
 
-    #outfit details
-    notes = TextAreaField("notes", validators=[Optional()])
-    tags = StringField("tags", validators=[Optional()])
+    special_toggle = BooleanField(
+        "special outfit",
+        validators=[Optional()]
+    )
 
-    #piece selection handled by JS
+    # --- Outfit details ---
+    notes = TextAreaField(
+        "notes",
+        validators=[Optional()]
+    )
 
-    submit = SubmitField("add outfit", render_kw={"class": "form-submit-button"})
+    tags = StringField(
+        "tags",
+        validators=[Optional()]
+    )
+
+    # --- Hidden fields (JS-controlled) ---
+    outfit_code = HiddenField()   # optional (if you want frontend access)
+    media_data = HiddenField()    # JSON string from drag-and-drop
+
+    # --- Submit ---
+    submit = SubmitField(
+        "add outfit",
+        render_kw={"class": "form-submit-button"}
+    )
 
 # add Outfit Media forms ________________________________________________________________________________
 

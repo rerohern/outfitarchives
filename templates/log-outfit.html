@@ -2,45 +2,28 @@
 
 {% block content %}
 <h1>log an outfit!</h1>
-<p>brb... refreshing up on javascript to make this part work!</p>
+<form method="POST">
+  {{ form.hidden_tag() }}
 
-<div class="outfit-builder-container">
-  <form method="POST" class="outfit-builder-form">
-    {{ form.csrf_token }}
+  <!-- Core fields -->
+  {{ form.date_worn.label }} {{ form.date_worn() }}
+  {{ form.notes.label }} {{ form.notes() }}
+  {{ form.tags.label }} {{ form.tags() }}
 
-    <div class="form-row">
-      {{ form.date_worn.label(class="add-piece-label") }}
-      {{ form.date_worn(class="add-piece-input") }}
-    </div>
+  <!-- Drag & Drop -->
+  <div class="drag-drop-container" id="drag-drop-area">
+      <p>Drag & drop images or click to select</p>
+      <input type="file" id="file-input" multiple accept="image/*" hidden>
+  </div>
 
-    <div class="selected-piece-search-js">
-      <div class="form-row">
-        <p>selected pieces: </p>
-      </div>
-      <div class="form-row">
-        <p>add piece: </p>
-        <p>search bar here</p>
-        <p>search results populate here as you type - see figma</p>
-      </div>
-    </div>
+  <!-- Preview -->
+  <div class="preview-container" id="preview-container"></div>
 
-    <div class="form-row">
-      {{ form.notes.label(class="add-piece-label") }}
-      {{ form.notes(class="add-piece-input") }}
-    </div>
+  <!-- Hidden field to store media JSON -->
+  <input type="hidden" name="media_data" id="media-data">
 
-    <div class="form-row">
-      {{ form.tags.label(class="add-piece-label") }}
-      {{ form.tags(class="add-piece-input") }}
-    </div>
+  {{ form.submit() }}
+</form>
 
-    <div class="form-row">
-      <div class="form-submit-button">
-        {{ form.submit(value="add outfit") }}
-      </div>
-    </div>
-  </form>
-
-</div>
 
 {% endblock %}
