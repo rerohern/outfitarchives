@@ -112,7 +112,13 @@ class ClosetPiece(db.Model):
     @property
     def get_texture(self):
         """return texture image"""
-        return self.texture[0].img_src if self.textures else None
+        return self.textures[0].img_src if self.textures else None
+
+    @property
+    def featured_texture(self):
+        if self.featured_texture_piece:
+            return self.featured_texture_piece.get_texture
+        return None
 
 # ____ outfit models ___________________________________________________________________________________
 
@@ -125,6 +131,7 @@ class Outfit(db.Model):
     date_worn = db.Column(db.Date, index=True, unique=False)
     notes = db.Column(db.String(240), nullable=True)
     tags = db.Column(db.String(50), index=True, unique=False, nullable=True)
+    featured_texture_piece_id = db.Column(db.Integer, db.ForeignKey("closet_pieces.id"))
 
     #___relationships___
 
@@ -133,6 +140,7 @@ class Outfit(db.Model):
 
     #one to many
     media = db.Relationship("Media", foreign_keys=[Media.outfit_id], back_populates="outfit")
+    featured_texture_piece = db.relationship("ClosetPiece")
 
     # ___ helper properties _____
 

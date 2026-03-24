@@ -79,7 +79,7 @@ a:active {
     color: white;
     -webkit-appearance: none;
     border: 1px solid blanchedalmond;
-    border-radius: 12px;
+    border-radius: 999px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -129,6 +129,9 @@ body.closet-landing .content-container > .page-container {
     overflow: hidden;
 }
 
+.closet-sidebar-content h2{
+    color: white;
+}
 
 .closet-sidebar{
     height: 100%;
@@ -160,6 +163,17 @@ body.closet-landing .content-container > .page-container {
 .closet-sidebar.expanded .closet-sidebar-content {
     opacity: 1;
     pointer-events: auto;
+}
+
+#closet-search-input {
+    position: relative;
+    width: 90%;
+}
+
+.filter-btn{
+    border-radius: 999px;
+    padding: 6px;
+    margin: 10px;
 }
 
 /* sidebar invitation */ 
@@ -218,6 +232,7 @@ body.closet-landing .content-container > .page-container {
     grid-template-columns: 20% 20% 20% 20%;
     gap: 5%;
     padding-bottom: 2%;
+    border-radius: 999px;
 } 
 
 .closet-piece-list-container {
@@ -347,7 +362,7 @@ body.closet-landing .content-container > .page-container {
     appearance: none;
     -webkit-appearance: none;
     border: 1px solid blanchedalmond;
-    border-radius: 12px;
+    border-radius: 999px;
     display: inline-flex;
     align-items: center;
     justify-content: center;

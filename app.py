@@ -190,6 +190,12 @@ def edit_closet_piece(code):
             form.img_src.data = media.img_src
             form.alt_text.data = media.alt_text
 
+        # Texture media
+        texture = piece.textures[0] if piece.textures else None
+        if texture:
+            form.texture_img_src.data = texture.img_src
+            form.texture_alt_text.data = texture.alt_text
+
     if form.validate_on_submit():
         # --- Update piece fields ---
         piece.name = form.name.data
@@ -221,6 +227,16 @@ def edit_closet_piece(code):
 
         media.img_src = form.img_src.data
         media.alt_text = form.alt_text.data
+
+         # --- Update or create texture media ---
+        texture = piece.textures[0] if piece.textures else None
+        if form.texture_img_src.data:
+            if not texture:
+                texture = Media(media_type="texture", closet_piece=piece)
+                db.session.add(texture)
+            texture.img_src = form.texture_img_src.data
+            texture.alt_text = form.texture_alt_text.data
+        
 
         db.session.commit()
         flash(f"{piece.name} updated successfully!", "success")

@@ -42,6 +42,8 @@ class AddClosetPieceForm(FlaskForm):
     #media info
     img_src = StringField("img src pathway", render_kw={"placeholder": "e.g. media/folder/image-name.jpg"}, validators=[Optional()])
     alt_text = StringField("alt text (200 char max)", validators=[Optional()])
+    texture_img_src = StringField("texture img src pathway", render_kw={"placeholder": "textured image"}, validators=[Optional()])
+    texture_alt_text = alt_text = StringField("alt text (200 char max)", validators=[Optional()])
 
 
     submit = SubmitField("add piece", render_kw={"class": "form-submit-button"})

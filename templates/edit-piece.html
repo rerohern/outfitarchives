@@ -111,6 +111,20 @@
                 </div>
 
                 <div class="form-section">
+                    <h3>textured image info</h3>
+        
+                    <div class="form-row">
+                        {{ form.texture_img_src.label(class="add-piece-label") }}
+                        {{ form.texture_img_src(class="add-piece-input") }}
+                    </div>
+        
+                    <div class="form-row">
+                        {{ form.texture_alt_text.label(class="add-piece-label") }}
+                        {{ form.texture_alt_text(class="add-piece-input") }}
+                    </div>
+                </div>
+
+                <div class="form-section">
                     <div class="form-submit-button">
                         {{ form.submit(value="edit piece") }}
                     </div> 
