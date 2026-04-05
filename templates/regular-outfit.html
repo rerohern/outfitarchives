@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>regular outfit test lol</h1>
+<p>date worn: {{ outfit.date_worn }}</p>
+<p>outfit notes: {{ outfit.notes }}</p>
+<p>outfit tags: {{ outfit.tags }}</p>
+<p>outfit images eventually go here</p>
+<p>pieces raw: {{ outfit.pieces }}</p>
+<p>list outfit pieces here:</p>
+<div class="rendered-outfit-pieces">
+    {% for piece in outfit.pieces %}
+      <div class="rendered-outfit-piece">
+        <p>{{ piece.name }}</p>
+      </div>
+    {% endfor %}
+  </div>
+<p>featured texture piece: {{ outfit.featured_texture_piece.name }}</p>
+
+{% endblock %}

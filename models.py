@@ -131,16 +131,28 @@ class Outfit(db.Model):
     date_worn = db.Column(db.Date, index=True, unique=False)
     notes = db.Column(db.String(240), nullable=True)
     tags = db.Column(db.String(50), index=True, unique=False, nullable=True)
-    featured_texture_piece_id = db.Column(db.Integer, db.ForeignKey("closet_pieces.id"))
+    featured_texture_piece_id = db.Column(db.Integer, db.ForeignKey("closet_pieces.id"), name="fk_outfits_featured_texture_piece_id")
 
     #___relationships___
 
     #many to many
-    pieces = db.Relationship("ClosetPiece", secondary="outfit_pieces", back_populates="outfits")
+    pieces = db.relationship("ClosetPiece", secondary="outfit_pieces", back_populates="outfits")
 
     #one to many
-    media = db.Relationship("Media", foreign_keys=[Media.outfit_id], back_populates="outfit")
+    media = db.relationship("Media", foreign_keys=[Media.outfit_id], back_populates="outfit")
     featured_texture_piece = db.relationship("ClosetPiece")
+
+    # ___ fucntions  _____
+    def __init__(self, date_worn, notes=None, tags=None, featured_texture_piece_id=None):
+        self.date_worn = date_worn
+        self.notes = notes
+        self.tags = tags
+        self.featured_texture_piece_id = featured_texture_piece_id
+
+    def generate_outfit_code(self):
+        count = Outfit.query.filter_by(date_worn=self.date_worn).count()
+        self.code = f"OUT_{self.date_worn.strftime('%Y%m%d')}_{count + 1}"
+    
 
     # ___ helper properties _____
 
