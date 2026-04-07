@@ -278,21 +278,33 @@ def api_closet_pieces():
 # REGULAR BASE OUTFIT TEST ROUTE ________________________________________________________
 @app.route('/test-outfit', methods=["GET"])
 def test_outfit():
-    top = ClosetPiece.query.filter_by(category="top").first()
-    bottom = ClosetPiece.query.filter_by(category="bottom").first()
-    accessory = ClosetPiece.query.filter_by(category="accessory").first()
-    shoe = ClosetPiece.query.filter_by(category="shoe").first()
-    outfit = Outfit(date_worn=date.today())
-    outfit.pieces = [top, bottom, accessory, shoe]
-    outfit.notes = "this is a test outfit, here to figure out the base formatting for outfits"
-    outfit.featured_texture_piece = bottom
-    db.session.add(outfit)
-    db.session.commit()
-    return render_template("regular-outfit.html", outfit=outfit)
+    # top = ClosetPiece.query.filter_by(category="tops").first()
+    # bottom = ClosetPiece.query.filter_by(category="bottoms").first()
+    # accessory = ClosetPiece.query.filter_by(category="accessories").first()
+    # shoe = ClosetPiece.query.filter_by(category="shoes").first()
+    # outfit = Outfit(date_worn=date.today())
+    # outfit.pieces = [top, bottom, accessory, shoe]
+    # outfit.notes = "this is a test outfit, here to figure out the base formatting for outfits"
+    # outfit.featured_texture_piece = bottom
+
+    # db.session.add(outfit)
+    # db.session.commit()
+
+    outfit = Outfit.query.filter_by(code="outfit_20260407_1").first_or_404()
+
+    # section for logging an outfit
+    outfit_form = LogOutfitForm()
+    outfit_media_form = OutfitMediaForm()
+    alt_outfit_media_form = AltOutfitMediaForm()
+    outfit_texture_media_form = OutfitTextureMediaForm()
+    
+    return render_template("regular-outfit.html", outfit=outfit, outfit_form = outfit_form, 
+    outfit_media_form = outfit_media_form, alt_outfit_media_form = alt_outfit_media_form, 
+    outfit_texture_media_form = outfit_texture_media_form)
 
 
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()  # db already initialized, commented out but for future reference
+        # db.create_all()  # db already initialized, commented out but for future reference
         app.run(debug=True)
 

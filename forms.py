@@ -59,7 +59,7 @@ class LogOutfitForm(FlaskForm):
     )
 
     special_toggle = BooleanField(
-        "special outfit",
+        "special",
         validators=[Optional()]
     )
 
@@ -94,13 +94,18 @@ class BaseMediaForm(FlaskForm):
     view = HiddenField()
 
 class OutfitMediaForm(BaseMediaForm):
-    pass
+    media_type = "outfit"
+    view = RadioField("view", choices=[("front", "front"), ("left", "left"), ("back", "back"), ("right", "right")], validators=[DataRequired()])
 
 class AltOutfitMediaForm(BaseMediaForm):
-    pass
+    media_type = "outfit_alt"
+    view = RadioField("view", choices=[("front", "front"), ("left", "left"), ("back", "back"), ("right", "right")], validators=[DataRequired()])
 
 class OutfitTextureMediaForm(BaseMediaForm):
-    pass
+    media_type = "texture"
+
+class OutfitTextureMediaForm(BaseMediaForm):
+    media_type = "month"
 
 
 

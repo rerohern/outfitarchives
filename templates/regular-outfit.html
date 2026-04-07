@@ -3,18 +3,42 @@
 {% block content %}
 <h1>regular outfit test lol</h1>
 <p>date worn: {{ outfit.date_worn }}</p>
+<p>outfit code: {{outfit.code }}</p>
+<p>special outfit: {{ outfit.is_special }}</p>
 <p>outfit notes: {{ outfit.notes }}</p>
 <p>outfit tags: {{ outfit.tags }}</p>
 <p>outfit images eventually go here</p>
-<p>pieces raw: {{ outfit.pieces }}</p>
-<p>list outfit pieces here:</p>
-<div class="rendered-outfit-pieces">
-    {% for piece in outfit.pieces %}
-      <div class="rendered-outfit-piece">
-        <p>{{ piece.name }}</p>
-      </div>
-    {% endfor %}
-  </div>
+<p>pieces raw:</p>
+<ul>
+  {% for piece in outfit.pieces %}
+  <li>{{ piece.code }}   //   {{ piece.name }}</li>
+  {% endfor %}
+</ul>
 <p>featured texture piece: {{ outfit.featured_texture_piece.name }}</p>
+
+<p>. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.</p>
+
+<h2>test: log an outfit form (includes various media forms and outfit log form)</h2>
+<form class="add-piece-form" method="POST">
+    {{ outfit_form.csrf_token }} {{ outfit_media_form.csrf_token }} {{ alt_outfit_media_form.csrf_token }} {{ outfit_texture_media_form.csrf_token }}
+    <div class="form-section">
+      <h3>core outfit info</h3>
+      <div class="form-row">
+        {{ outfit_form.date_worn.label }}
+        {{ outfit_form.date_worn() }}
+      </div>
+      <div class="form-row">
+        {{ outfit_form.is_special.label }}
+        {{ outfit_form.is_special() }}
+      </div>
+      <div class="form-row">
+        {{ outfit_form.notes.label }}
+        {{ outfit_form.notes(class="add-piece-input")}}
+      </div>
+
+    </div>
+
+</form>
+
 
 {% endblock %}

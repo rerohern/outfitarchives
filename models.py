@@ -128,6 +128,7 @@ class Outfit(db.Model):
     #core info
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(100), index=True, unique=True)
+    is_special = db.Column(db.Boolean, default=False, nullable=False)
     date_worn = db.Column(db.Date, index=True, unique=False)
     notes = db.Column(db.String(240), nullable=True)
     tags = db.Column(db.String(50), index=True, unique=False, nullable=True)
@@ -149,9 +150,11 @@ class Outfit(db.Model):
         self.tags = tags
         self.featured_texture_piece_id = featured_texture_piece_id
 
+        self.generate_outfit_code()
+
     def generate_outfit_code(self):
         count = Outfit.query.filter_by(date_worn=self.date_worn).count()
-        self.code = f"OUT_{self.date_worn.strftime('%Y%m%d')}_{count + 1}"
+        self.code = f"outfit_{self.date_worn.strftime('%Y%m%d')}_{count + 1}"
     
 
     # ___ helper properties _____
