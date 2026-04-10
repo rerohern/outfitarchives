@@ -294,13 +294,14 @@ def test_outfit():
 
     # section for logging an outfit
     outfit_form = LogOutfitForm()
-    outfit_media_form = OutfitMediaForm()
-    alt_outfit_media_form = AltOutfitMediaForm()
-    outfit_texture_media_form = OutfitTextureMediaForm()
+    outfit_media = build_media_forms(["front", "left", "back", "right"], media_type="outfit")
+    outfit_alt_groups = [
+        build_media_forms(["front", "left", "back", "right"], media_type="outfit_alt", group = 1)
+    ]
+
     
-    return render_template("regular-outfit.html", outfit=outfit, outfit_form = outfit_form, 
-    outfit_media_form = outfit_media_form, alt_outfit_media_form = alt_outfit_media_form, 
-    outfit_texture_media_form = outfit_texture_media_form)
+    
+    return render_template("regular-outfit.html", outfit=outfit, outfit_form = outfit_form, outfit_media = outfit_media, outfit_alt_groups = outfit_alt_groups)
 
 
 if __name__ == "__main__":

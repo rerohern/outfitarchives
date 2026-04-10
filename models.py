@@ -143,7 +143,7 @@ class Outfit(db.Model):
     media = db.relationship("Media", foreign_keys=[Media.outfit_id], back_populates="outfit")
     featured_texture_piece = db.relationship("ClosetPiece")
 
-    # ___ fucntions  _____
+    # ___ functions  _____
     def __init__(self, date_worn, notes=None, tags=None, featured_texture_piece_id=None):
         self.date_worn = date_worn
         self.notes = notes

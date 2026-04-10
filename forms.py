@@ -86,26 +86,26 @@ class LogOutfitForm(FlaskForm):
 
 # add Outfit Media forms ________________________________________________________________________________
 
-class BaseMediaForm(FlaskForm):
-    #image base
+class MediaForm(FlaskForm):
     img_src = StringField("img src pathway", render_kw={"placeholder": "e.g. media/folder/image-name.jpg"}, validators=[Optional()])
     alt_text = StringField("alt text (200 char max)", validators=[Optional()])
     media_type = HiddenField()
     view = HiddenField()
+    group = HiddenField() # <- for multiple alt outfit versions? 
 
-class OutfitMediaForm(BaseMediaForm):
-    media_type = "outfit"
-    view = RadioField("view", choices=[("front", "front"), ("left", "left"), ("back", "back"), ("right", "right")], validators=[DataRequired()])
+# media form builder, to move to builders.py when drag and drop, upload pipelines, etc are a thing ______________
 
-class AltOutfitMediaForm(BaseMediaForm):
-    media_type = "outfit_alt"
-    view = RadioField("view", choices=[("front", "front"), ("left", "left"), ("back", "back"), ("right", "right")], validators=[DataRequired()])
+def build_media_forms(view_names, media_type, group = None):
+    forms = {}
 
-class OutfitTextureMediaForm(BaseMediaForm):
-    media_type = "texture"
+    for view in view_names:
+        form = MediaForm()
+        form.view.data = view
+        form.media_type.data = media_type
+        form.group.data = group
+        forms[view] = form
 
-class OutfitTextureMediaForm(BaseMediaForm):
-    media_type = "month"
+    return forms
 
-
-
+def build_alt_group(group_id):
+    return build_media_forms(["left", "front", "right", "back"], media_type = "outfit_alt", group = group_id)
