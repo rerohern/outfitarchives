@@ -295,9 +295,9 @@ def test_outfit():
     # section for logging an outfit
     outfit_form = LogOutfitForm()
     outfit_media = build_media_forms(["front", "left", "back", "right"], media_type="outfit")
-    outfit_alt_groups = [
-        build_media_forms(["front", "left", "back", "right"], media_type="outfit_alt", group = 1)
-    ]
+    outfit_alt_groups = {
+        1: build_media_forms([...], media_type="outfit_alt", group=1),
+    }
 
     
     

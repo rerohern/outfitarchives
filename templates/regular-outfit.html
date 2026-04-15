@@ -20,7 +20,7 @@
 
 <h2>test: log an outfit form (includes various media forms and outfit log form)</h2>
 <form class="add-piece-form" method="POST">
-    {{ outfit_form.csrf_token }} {{ outfit_media_form.csrf_token }} {{ alt_outfit_media_form.csrf_token }} {{ outfit_texture_media_form.csrf_token }}
+    {{ outfit_form.csrf_token }}
     <div class="form-section">
       <h3>core outfit info</h3>
       <div class="form-row">
@@ -28,14 +28,49 @@
         {{ outfit_form.date_worn() }}
       </div>
       <div class="form-row">
-        {{ outfit_form.is_special.label }}
-        {{ outfit_form.is_special() }}
+        {{ outfit_form.special_toggle.label }}
+        {{ outfit_form.special_toggle() }}
       </div>
       <div class="form-row">
         {{ outfit_form.notes.label }}
         {{ outfit_form.notes(class="add-piece-input")}}
       </div>
-
+    </div>
+    <div class="form-media-grid">
+      <div class="form-row"><h3>upload media</h3></div>
+      {% for view, form in outfit_media.items() %}
+      <div class="form-media-grid-item">
+          <h4>{{ view }}</h4>
+          <div class="form-row">
+            {{ form.img_src.label }}
+            {{ form.img_src() }}
+          </div>
+          <div class="form-row">
+            {{ form.alt_text.label }}
+            {{ form.alt_text() }}
+          </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="form-media-grid">
+      {% for group_id, group in outfit_alt_groups.items() %}
+        <div class="alt-group">
+          <h3>Altenate Outfit {{ group_id }}: Media</h3>
+          {% for view, form in group.items() %}
+            <div>
+              <p>{{ view }}</p>
+              <div class="form-row">
+                {{ form.img_src.label }}
+                {{ form.img_src() }}
+              </div>
+              <div class="form-row">
+                {{ form.alt_text.label }}
+                {{ form.alt_text() }}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
     </div>
 
 </form>
