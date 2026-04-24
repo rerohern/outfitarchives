@@ -35,6 +35,9 @@
         {% endfor %}
       </div> 
     </div>
+    <div>
+      <button class="add-other-alt-btn">add alternate outfit</button>
+    </div>
     <div class="outfit-builder-media-section form-section">
       <div class="form-row"><h2>alternate outfit media</h3></div>
       <div class="outfit-builder-media-section-alt">
@@ -58,6 +61,30 @@
                 </div>
               {% endfor %}
             </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="form-section outfit-builder-pieces">
+      <div class="form-row">
+        <h2>pieces</h2>
+      </div>
+    
+      <div class="outfit-builder-pieces-grid">
+        {% for item in closet_items %}
+          <label class="piece-checkbox">
+            <input 
+              type="checkbox" 
+              name="piece_ids" 
+              value="{{ item.id }}"
+            >
+            <span class="piece-label">
+              {{ item.name }}
+            </span>
+          </label>
+          <label>
+            <input type="radio" name="featured_piece_id" value="{{ item.id }}">
+            featured
+          </label>
         {% endfor %}
       </div>
     </div>
