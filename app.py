@@ -292,16 +292,21 @@ def test_outfit():
 
     outfit = Outfit.query.filter_by(code="outfit_20260407_1").first_or_404()
 
-    # section for logging an outfit
+    
+    
+    return render_template("regular-outfit.html", outfit=outfit)
+
+# TEST OUTFIT BUILDER ROUTE _________________________________________________________________
+@app.route('/test-log-outfit', methods=["GET", "POST"])
+def test_log_outfit():
     outfit_form = LogOutfitForm()
     outfit_media = build_media_forms(["front", "left", "back", "right"], media_type="outfit")
     outfit_alt_groups = {
-        1: build_media_forms([...], media_type="outfit_alt", group=1),
+        1: build_media_forms(["front", "left", "back", "right"], media_type="outfit_alt", group=1),
     }
 
     
-    
-    return render_template("regular-outfit.html", outfit=outfit, outfit_form = outfit_form, outfit_media = outfit_media, outfit_alt_groups = outfit_alt_groups)
+    return render_template("outfit-log-test.html", outfit_form = outfit_form, outfit_media = outfit_media, outfit_alt_groups = outfit_alt_groups)
 
 
 if __name__ == "__main__":

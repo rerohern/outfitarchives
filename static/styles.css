@@ -320,6 +320,7 @@ body.closet-landing .content-container > .page-container {
 /* applies to edit piece form too _______________ */
 .add-piece-label {
     color: white;
+    text-align: center;
 }
 
 .add-piece-input {
@@ -435,21 +436,19 @@ body.closet-landing .content-container > .page-container {
 
 /* log outfit page styling ______________________________________________________________________________ */
 .outfit-builder-container{
-    width: 80wh;
-    height: 70vh;
+    height: 80vh;
+    width: 96vw;
     display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 100%;
     background-color: tan;
     border-radius: 65px;
     padding: 10px;
+    overflow: scroll;
 }
 
-.outfit-builder-form{
-    border: lightcoral 2px dashed;
-    margin: 10px;
-}
-
-.selected-piece-search-js{
-    border: blueviolet 2px dashed;
+.outfit-builder-container h3{
+    color: white;
 }
 
 #log-outfit-date-input{
@@ -459,19 +458,87 @@ body.closet-landing .content-container > .page-container {
     font-size: 60px;
 }
 
-/* ____ step two ___________________________________ */
-
-.outfit-builder-step-two{
+#outfit-builder-top-section{
     display: grid;
     grid-template-columns: 50% 50%;
+    grid-template-rows: 80% 20%;
+    /* border: 3px solid greenyellow; */
 }
 
-.selected-piece-display{
+
+.outfit-builder-media-section{
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 25% 25% 25% 25%;
-    border: cornsilk 2px dashed;
+    grid-template-rows: 20% 80%;
+    /* border: 2px dashed blue; */
+    height: 50%;
 }
+
+.outfit-builder-media-section h2{
+    color: white;
+}
+
+.outfit-builder-media-grid{
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: 25% 25% 25% 25%;
+    /* border: 2px solid lightsteelblue */
+}
+
+.outfit-builder-media-section-header{
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: 70% 30%;
+    /* border: 2px solid green; */
+}
+
+.notes-input{
+    width: 95%;
+}
+
+#outfit-submit-button input{
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+
+#outfit-submit-button input:hover{
+    transform: scale(1.01);
+}
+
+.add-other-alt-btn{
+    all: unset;
+    appearance: none;
+    color: white;
+    -webkit-appearance: none;
+    border: 1px solid blanchedalmond;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: right;
+    padding: 2%;
+    text-decoration: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: transform 0.15s, background-color 0.15s;
+    box-sizing: border-box;
+    width: 50%;
+    height: 70%;
+}
+
+.add-other-alt-btn:hover{
+    transform: scale(1.03);
+    background-color: blanchedalmond;
+    color: black;
+}
+
+.form-row{
+    width: 100%;
+    position: relative;
+}
+
+
 /* login page ______________________________________________________________________________ */
 .login-container{
     background-color: tan;
