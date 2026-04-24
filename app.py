@@ -299,14 +299,42 @@ def test_outfit():
 # TEST OUTFIT BUILDER ROUTE _________________________________________________________________
 @app.route('/test-log-outfit', methods=["GET", "POST"])
 def test_log_outfit():
-    outfit_form = LogOutfitForm()
-    outfit_media = build_media_forms(["front", "left", "back", "right"], media_type="outfit")
-    outfit_alt_groups = {
-        1: build_media_forms(["front", "left", "back", "right"], media_type="outfit_alt", group=1),
-    }
+    if current_user.is_authenticated:
+        outfit_form = LogOutfitForm()
+        outfit_media = build_media_forms(["front", "left", "back", "right"], media_type="outfit")
+        outfit_alt_groups = {
+            1: build_media_forms(["front", "left", "back", "right"], media_type="outfit_alt", group=1),
+        }
 
-    
-    return render_template("outfit-log-test.html", outfit_form = outfit_form, outfit_media = outfit_media, outfit_alt_groups = outfit_alt_groups)
+        #creating an outfit on submit
+        date_worn = outfit_form.date.data
+        is_special = outfit_form.special_toggle.data
+        tags = outfit_form.tags.data
+        piece_ids = [int(id) for id in request.form.getlist("piece_ids")]
+        pieces = ClosetPiece.query.filter(ClosetPiece.id.in_(piece_ids)).all()
+        notes = outfit_form.notes.data
+        featured_piece_id = outfit_form.featured_piece_id.data
+        if featured_piece_id:
+            featured_piece_id = int(featured_piece_id)
+
+        #generate outfit code (happens on init anyway)
+        new_outfit = Outfit(
+            is_special = is_special,
+            date_worn = date_worn,
+            tags = tags,
+            notes = notes, 
+            pieces = pieces,
+            featured_piece_id = featured_piece_id
+        )
+
+        db.session.add(new_outfit)
+        db.session.commit()
+
+        #adding media
+
+
+        
+        return render_template("outfit-log-test.html", outfit_form = outfit_form, outfit_media = outfit_media, outfit_alt_groups = outfit_alt_groups)
 
 
 if __name__ == "__main__":
