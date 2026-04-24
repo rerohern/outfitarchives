@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>test: log an outfit form (includes various media forms and outfit log form)</h2>
+<form class="outfit-builder-container" method="POST">
+    {{ outfit_form.csrf_token }}
+    <div class="form-section" id="outfit-builder-top-section">
+      <div class="form-row">
+        {{ outfit_form.date_worn(id="log-outfit-date-input") }}
+      </div>
+      <div class="form-row">
+        {{ outfit_form.special_toggle.label(class="add-piece-label") }}
+        {{ outfit_form.special_toggle(class="add-piece-input") }}
+      </div>
+      <div class="form-row">
+        {{ outfit_form.tags.label(class="add-piece-label") }}
+        {{ outfit_form.tags(class="add-piece-input") }}
+      </div>
+    </div>
+    <div class="outfit-builder-media-section form-section">
+      <div class="form-row"><h2>upload media</h3></div>
+      <div class="outfit-builder-media-grid">
+        {% for view, form in outfit_media.items() %}
+          <div class="outfit-builder-media-grid-item form-section">
+              <h4>{{ view }}</h4>
+              <div class="form-row">
+                {{ form.img_src.label(class="add-piece-label") }}
+                {{ form.img_src(class="add-piece-input") }}
+              </div>
+              <div class="form-row">
+                {{ form.alt_text.label(class="add-piece-label") }}
+                {{ form.alt_text(class="add-piece-input") }}
+              </div>
+          </div>
+        {% endfor %}
+      </div> 
+    </div>
+    <div class="outfit-builder-media-section form-section">
+      <div class="form-row"><h2>alternate outfit media</h3></div>
+      <div class="outfit-builder-media-section-alt">
+        {% for group_id, group in outfit_alt_groups.items() %}
+            <div class="outfit-builder-media-section-header">
+              <h3>alternate group {{ group_id }}</h3>
+              <button class="add-other-alt-btn">add another alternate outfit</button>
+            </div>
+            <div class="outfit-builder-media-grid">
+              {% for view, form in group.items() %}
+                <div class="outfit-builder-media-grid-item form-section">
+                  <h4>{{ view }}</h4>
+                  <div class="form-row">
+                    {{ form.img_src.label(class="add-piece-label") }}
+                    {{ form.img_src(class="add-piece-input") }}
+                  </div>
+                  <div class="form-row">
+                    {{ form.alt_text.label(class="add-piece-label") }}
+                    {{ form.alt_text(class="add-piece-input") }}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="form-section outfit-builder-misc">
+      <div class="form-row">
+        {{ outfit_form.notes.label(class="add-piece-label") }}
+        {{ outfit_form.notes(class="add-piece-input notes-input")}}
+      </div>
+      <div class="form-row">
+        <div class="form-submit-button" id="outfit-submit-button">
+          {{ outfit_form.submit() }}
+        </div>
+      </div>
+    </div>
+</form>
+
+
+{% endblock %}

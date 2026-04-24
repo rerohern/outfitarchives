@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>regular outfit test lol</h1>
+<p>date worn: {{ outfit.date_worn }}</p>
+<p>outfit code: {{outfit.code }}</p>
+<p>special outfit: {{ outfit.is_special }}</p>
+<p>outfit notes: {{ outfit.notes }}</p>
+<p>outfit tags: {{ outfit.tags }}</p>
+<p>outfit images eventually go here</p>
+<p>pieces raw:</p>
+<ul>
+  {% for piece in outfit.pieces %}
+  <li>{{ piece.code }}   //   {{ piece.name }}</li>
+  {% endfor %}
+</ul>
+<p>featured texture piece: {{ outfit.featured_texture_piece.name }}</p>
+
+<p>. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.</p>
+
+
+{% endblock %}

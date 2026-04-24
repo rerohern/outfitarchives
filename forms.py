@@ -42,6 +42,8 @@ class AddClosetPieceForm(FlaskForm):
     #media info
     img_src = StringField("img src pathway", render_kw={"placeholder": "e.g. media/folder/image-name.jpg"}, validators=[Optional()])
     alt_text = StringField("alt text (200 char max)", validators=[Optional()])
+    texture_img_src = StringField("texture img src pathway", render_kw={"placeholder": "textured image"}, validators=[Optional()])
+    texture_alt_text = StringField("alt text (200 char max)", validators=[Optional()])
 
 
     submit = SubmitField("add piece", render_kw={"class": "form-submit-button"})
@@ -49,35 +51,61 @@ class AddClosetPieceForm(FlaskForm):
 # add Outfit form _________________________________________________________________________________
 
 class LogOutfitForm(FlaskForm):
-    #core info to create outfit code
-    date_worn = DateField("date worn", default=date.today, validators=[DataRequired()])
-    special_toggle = BooleanField("special outfit", validators=[Optional()])
+    # --- Core info (used to generate outfit code) ---
+    date_worn = DateField(
+        "date worn",
+        default=date.today,
+        validators=[DataRequired()]
+    )
 
-    #outfit details
-    notes = TextAreaField("notes", validators=[Optional()])
-    tags = StringField("tags", validators=[Optional()])
+    special_toggle = BooleanField(
+        "special",
+        validators=[Optional()]
+    )
 
-    #piece selection handled by JS
+    # --- Outfit details ---
+    notes = TextAreaField(
+        "notes",
+        validators=[Optional()]
+    )
 
-    submit = SubmitField("add outfit", render_kw={"class": "form-submit-button"})
+    tags = StringField(
+        "tags",
+        validators=[Optional()]
+    )
+
+    # --- Hidden fields (JS-controlled) ---
+    outfit_code = HiddenField()   # optional (if you want frontend access)
+    media_data = HiddenField()    # JSON string from drag-and-drop
+
+    # --- Submit ---
+    submit = SubmitField(
+        "add outfit",
+        render_kw={"class": "form-submit-button"}
+    )
 
 # add Outfit Media forms ________________________________________________________________________________
 
-class BaseMediaForm(FlaskForm):
-    #image base
+class MediaForm(FlaskForm):
     img_src = StringField("img src pathway", render_kw={"placeholder": "e.g. media/folder/image-name.jpg"}, validators=[Optional()])
     alt_text = StringField("alt text (200 char max)", validators=[Optional()])
     media_type = HiddenField()
     view = HiddenField()
+    group = HiddenField() # <- for multiple alt outfit versions? 
 
-class OutfitMediaForm(BaseMediaForm):
-    pass
+# media form builder, to move to builders.py when drag and drop, upload pipelines, etc are a thing ______________
 
-class AltOutfitMediaForm(BaseMediaForm):
-    pass
+def build_media_forms(view_names, media_type, group = None):
+    forms = {}
 
-class OutfitTextureMediaForm(BaseMediaForm):
-    pass
+    for view in view_names:
+        form = MediaForm()
+        form.view.data = view
+        form.media_type.data = media_type
+        form.group.data = group
+        forms[view] = form
 
+    return forms
 
-
+def build_alt_group(group_id):
+    return build_media_forms(["left", "front", "right", "back"], media_type = "outfit_alt", group = group_id)

@@ -1,11 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="closet-sidebar">
+    <div class="dot-container">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    <div class="closet-sidebar-content">
+        <h2>search for a piece, or peruse as you please</h2>
+        <div class="search-container">
+            <input type="text" class="add-piece-input" id="closet-search-input" placeholder="search by name or brand"/>
+        </div>
+        <a class="button filter-btn" data-category="tops">tops</a>
+        <a class="button filter-btn" data-category="bottoms">bottoms</a>
+        <a class="button filter-btn" data-category="shoes">shoes</a>
+        <a class="button filter-btn" data-category="dresses">dresses</a>
+        <a class="button filter-btn" data-category="accessories">accessories</a>
+        <a class="button filter-btn" data-category="all">all</a>
+    </div>
+</div>
+
 <div class="page-container">
     <h1>closet pieces</h1>
     <div class="closet-piece-top-buttons">
         <a class="edit-button" id="closet-page-add-piece-button" href="{{ url_for('index') }}">add new piece</a>
-        <a class="edit-button" href="{{ url_for('log_outfit') }}">log outfit</a>
         <div></div>
         <div></div>
         <div></div>
@@ -14,7 +33,12 @@
 
     <div class = "closet-piece-list-container">
         {% for piece in closet %}
-            <div class = "closet-piece-container">
+        <div class = "closet-piece-container"
+            data-name="{{ piece.name | lower }}"
+            data-category="{{ piece.category | lower }}"
+            data-brand="{{ piece.brand | lower if piece.brand else '' }}"
+            data-deaccessioned="{{ piece.deaccessioned | lower }}"
+            data-credit-type="{{ piece.acquisition.credit_type | lower if piece.acquisition else '' }}">
                 <div class="cpl-image">
                     {% if piece.media %}
                         <img 

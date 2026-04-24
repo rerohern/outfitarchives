@@ -14,7 +14,7 @@ h1 {
     width: 98%;
     height: 90%;
     /* background-color: wheat; */
-    border: 2px dashed red;
+    /* border: 2px dashed red; */
     margin: 1%;
 }
 
@@ -79,7 +79,7 @@ a:active {
     color: white;
     -webkit-appearance: none;
     border: 1px solid blanchedalmond;
-    border-radius: 12px;
+    border-radius: 999px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -102,12 +102,128 @@ a:active {
 }
 
 /* closet piece page ______________________________________________________________________________ */
-
-.page-container{
+body.closet-landing .content-container {
     width: 100%;
-    height: 100%;
+    height: 90%;
+    border: blue dashed 2px;
+    left: 0px;
     display: grid;
-    border: purple dashed 2px;
+    /* Sidebar (first child) and page container (second child) side-by-side */
+    grid-template-columns: max-content 1fr;
+    grid-template-rows: 1fr;
+    align-items: stretch;
+    column-gap: 5px;
+}
+
+/* Ensure deterministic grid placement */
+body.closet-landing .content-container > .closet-sidebar {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+body.closet-landing .content-container > .page-container {
+    grid-column: 2;
+    grid-row: 1;
+
+    min-height: 0; 
+    overflow: hidden;
+}
+
+.closet-sidebar-content h2{
+    color: white;
+}
+
+.closet-sidebar{
+    height: 100%;
+    background-color: tan;
+    transition: width 0.3s ease;
+}
+
+.closet-sidebar{
+    width: 40px; /* collapsed */
+}
+
+.closet-sidebar.expanded{
+    width: 280px;
+    border: tan 2px dashed;
+}
+
+.closet-sidebar-content{
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2 ease 0.01s;
+}
+
+.closet-sidebar-content {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.closet-sidebar.expanded .closet-sidebar-content {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#closet-search-input {
+    position: relative;
+    width: 90%;
+}
+
+.filter-btn{
+    border-radius: 999px;
+    padding: 6px;
+    margin: 10px;
+}
+
+/* sidebar invitation */ 
+/* Container to stack dots vertically */
+.dot-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  
+  /* Dots */
+  .dot {
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border-radius: 50%;
+    animation: float 3s ease-in-out infinite;
+    opacity: 1;                 /* visible by default */
+    transition: opacity 0.3s ease;
+  }
+  
+  /* Stagger for natural float */
+  .dot:nth-child(1) { animation-delay: 0s; }
+  .dot:nth-child(2) { animation-delay: 0.5s; }
+  .dot:nth-child(3) { animation-delay: 1s; }
+  
+  /* Float animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  
+  /* Hide dots when sidebar is expanded/hovered */
+  .closet-sidebar.expanded .dot,
+  .closet-sidebar:hover .dot {
+    opacity: 0;
+  }
+
+.page-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100%;
+    min-height: 0; /* important */
+}
+
+.page-container h1 {
+    margin: 10px 0px;
+    align-self: start;   /* prevents vertical stretching */
 }
 
 .closet-piece-top-buttons{
@@ -116,17 +232,18 @@ a:active {
     grid-template-columns: 20% 20% 20% 20%;
     gap: 5%;
     padding-bottom: 2%;
-}
+    border-radius: 999px;
+} 
 
-.closet-piece-list-container{
+.closet-piece-list-container {
     width: 100%;
     height: 100%;
-    overflow-y: scroll;
-    /* add scroll colors and details here */
+
+    overflow-y: auto; /* better than scroll */
+    min-height: 0; /* 🚨 also important */
+
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: 1fr;
-    /* background-color: plum; */
     column-gap: 2%;
     row-gap: 10%;
 }
@@ -136,7 +253,7 @@ a:active {
     display: grid;
     grid-template-rows: 60% 40%;
     width: 85%;
-    height: 100%;
+    height: clamp(320px, 40vw, 450px);
     border-radius: 10px;
     padding: 5%;
     border: tan 2px solid; 
@@ -175,6 +292,10 @@ a:active {
     margin: 5%;
 }
 
+.hidden {
+    display: none;
+}
+
 /* adding a piece ______________________________________________________________________________ */
 
 .add-piece-form{
@@ -199,6 +320,7 @@ a:active {
 /* applies to edit piece form too _______________ */
 .add-piece-label {
     color: white;
+    text-align: center;
 }
 
 .add-piece-input {
@@ -241,7 +363,7 @@ a:active {
     appearance: none;
     -webkit-appearance: none;
     border: 1px solid blanchedalmond;
-    border-radius: 12px;
+    border-radius: 999px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -314,21 +436,19 @@ a:active {
 
 /* log outfit page styling ______________________________________________________________________________ */
 .outfit-builder-container{
-    width: 80wh;
-    height: 70vh;
+    height: 80vh;
+    width: 96vw;
     display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 100%;
     background-color: tan;
     border-radius: 65px;
     padding: 10px;
+    overflow: scroll;
 }
 
-.outfit-builder-form{
-    border: lightcoral 2px dashed;
-    margin: 10px;
-}
-
-.selected-piece-search-js{
-    border: blueviolet 2px dashed;
+.outfit-builder-container h3{
+    color: white;
 }
 
 #log-outfit-date-input{
@@ -338,19 +458,87 @@ a:active {
     font-size: 60px;
 }
 
-/* ____ step two ___________________________________ */
-
-.outfit-builder-step-two{
+#outfit-builder-top-section{
     display: grid;
     grid-template-columns: 50% 50%;
+    grid-template-rows: 80% 20%;
+    /* border: 3px solid greenyellow; */
 }
 
-.selected-piece-display{
+
+.outfit-builder-media-section{
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 25% 25% 25% 25%;
-    border: cornsilk 2px dashed;
+    grid-template-rows: 20% 80%;
+    /* border: 2px dashed blue; */
+    height: 50%;
 }
+
+.outfit-builder-media-section h2{
+    color: white;
+}
+
+.outfit-builder-media-grid{
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: 25% 25% 25% 25%;
+    /* border: 2px solid lightsteelblue */
+}
+
+.outfit-builder-media-section-header{
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: 70% 30%;
+    /* border: 2px solid green; */
+}
+
+.notes-input{
+    width: 95%;
+}
+
+#outfit-submit-button input{
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+
+#outfit-submit-button input:hover{
+    transform: scale(1.01);
+}
+
+.add-other-alt-btn{
+    all: unset;
+    appearance: none;
+    color: white;
+    -webkit-appearance: none;
+    border: 1px solid blanchedalmond;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: right;
+    padding: 2%;
+    text-decoration: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: transform 0.15s, background-color 0.15s;
+    box-sizing: border-box;
+    width: 50%;
+    height: 70%;
+}
+
+.add-other-alt-btn:hover{
+    transform: scale(1.03);
+    background-color: blanchedalmond;
+    color: black;
+}
+
+.form-row{
+    width: 100%;
+    position: relative;
+}
+
+
 /* login page ______________________________________________________________________________ */
 .login-container{
     background-color: tan;

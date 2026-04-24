@@ -3,6 +3,7 @@ from extensions import db, csrf, login_manager
 from forms import *
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, current_user, login_user, logout_user
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'archiveround2'
@@ -14,6 +15,7 @@ db.init_app(app)
 csrf.init_app(app)
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+migrate = Migrate(app, db)
 
 # importing models after db is initialized
 from models import User, Media, ClosetPiece, Acquisition, OutfitPieces, Outfit
@@ -162,9 +164,9 @@ def closet_pieces():
     pieces = ClosetPiece.query.all()
 
     if current_user.is_authenticated:
-        return render_template("closet-pieces-admin.html", closet=pieces)
+        return render_template("closet-pieces-admin.html", closet=pieces,  body_class="closet-landing")
     else:
-        return render_template("closet-pieces-public.html", closet=pieces)
+        return render_template("closet-pieces-public.html", closet=pieces,  body_class="closet-landing")
 
 @app.route('/edit-closet-piece/<string:code>', methods=["GET", "POST"])
 def edit_closet_piece(code):
@@ -189,6 +191,12 @@ def edit_closet_piece(code):
         if media:
             form.img_src.data = media.img_src
             form.alt_text.data = media.alt_text
+
+        # Texture media
+        texture = piece.textures[0] if piece.textures else None
+        if texture:
+            form.texture_img_src.data = texture.img_src
+            form.texture_alt_text.data = texture.alt_text
 
     if form.validate_on_submit():
         # --- Update piece fields ---
@@ -221,6 +229,16 @@ def edit_closet_piece(code):
 
         media.img_src = form.img_src.data
         media.alt_text = form.alt_text.data
+
+         # --- Update or create texture media ---
+        texture = piece.textures[0] if piece.textures else None
+        if form.texture_img_src.data:
+            if not texture:
+                texture = Media(media_type="texture", closet_piece=piece)
+                db.session.add(texture)
+            texture.img_src = form.texture_img_src.data
+            texture.alt_text = form.texture_alt_text.data
+        
 
         db.session.commit()
         flash(f"{piece.name} updated successfully!", "success")
@@ -257,52 +275,39 @@ def api_closet_pieces():
         for piece in pieces
     ])
 
-@app.route('/log-outfit-base', methods=["GET", "POST"])
-def log_outfit_base():
-    form = LogOutfitForm()
+# REGULAR BASE OUTFIT TEST ROUTE ________________________________________________________
+@app.route('/test-outfit', methods=["GET"])
+def test_outfit():
+    # top = ClosetPiece.query.filter_by(category="tops").first()
+    # bottom = ClosetPiece.query.filter_by(category="bottoms").first()
+    # accessory = ClosetPiece.query.filter_by(category="accessories").first()
+    # shoe = ClosetPiece.query.filter_by(category="shoes").first()
+    # outfit = Outfit(date_worn=date.today())
+    # outfit.pieces = [top, bottom, accessory, shoe]
+    # outfit.notes = "this is a test outfit, here to figure out the base formatting for outfits"
+    # outfit.featured_texture_piece = bottom
 
-    return render_template("log-outfit.html", form=form)
+    # db.session.add(outfit)
+    # db.session.commit()
 
-# multi route log outfit _______________________________________________________________________________
-@app.route('/log-outfit', methods=["GET", "POST"])
-def log_outfit():
-    if 'outfit_data' not in session:
-        session['outfit_data'] = {
-            'date': '',
-            'special_toggle': False,
-            'pieces': [], #piece id 
-            'tags': [], #list of tags
-            'notes': '',
-            'media': [] # list of media dicts: {img_src, alt_text, media_type, view}
-        }
+    outfit = Outfit.query.filter_by(code="outfit_20260407_1").first_or_404()
 
-    outfit = session['outfit_data']    
-    form = LogOutfitForm()
-
-    if form.validate_on_submit():
-        outfit['date'] = form.date_worn.data
-        outfit['special_toggle'] = form.special_toggle.data
-
-        #handling special_taggle 
-        if outfit['special_toggle'] and 'special' not in outfit['tags']:
-            outfit['tags'].append('special')
-        elif not outfit['special_toggle'] and 'special' in outfit['tags']:
-            outfit['tags'].remove('special')
-        
-        session['outfit_data'] = outfit
-        return redirect(url_for('log_outfit_step_two')) 
     
-    return render_template('log-outfit-start.html', form=form)
+    
+    return render_template("regular-outfit.html", outfit=outfit)
 
-@app.route('/log-outfit/step-2', methods=["GET", "POST"])
-def log_outfit_step_two():
-    if "outfit_data" in session: 
-        outfit = session["outfit_data"]
-        return render_template('log-outfit-add-pieces.html', outfit=outfit)
+# TEST OUTFIT BUILDER ROUTE _________________________________________________________________
+@app.route('/test-log-outfit', methods=["GET", "POST"])
+def test_log_outfit():
+    outfit_form = LogOutfitForm()
+    outfit_media = build_media_forms(["front", "left", "back", "right"], media_type="outfit")
+    outfit_alt_groups = {
+        1: build_media_forms(["front", "left", "back", "right"], media_type="outfit_alt", group=1),
+    }
+
     
-    else: 
-        return redirect(url_for('log_outfit'))
-    
+    return render_template("outfit-log-test.html", outfit_form = outfit_form, outfit_media = outfit_media, outfit_alt_groups = outfit_alt_groups)
+
 
 if __name__ == "__main__":
     with app.app_context():
