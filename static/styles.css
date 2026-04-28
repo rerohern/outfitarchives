@@ -539,6 +539,14 @@ body.closet-landing .content-container > .page-container {
 }
 
 
+/* show all outfits page ______________________________________________________________________________ */
+.outfit-container{
+    border: greenyellow 2px solid;
+    width: auto;
+    height: auto;
+}
+
+
 /* login page ______________________________________________________________________________ */
 .login-container{
     background-color: tan;

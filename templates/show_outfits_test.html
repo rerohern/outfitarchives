@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>test page for showing all outfits</h1>
+<p>every outfit that exists in the database will be listed here</p>
+
+<div class="all-outfits-container">
+    <div class="outfit-container">
+        {% for outfit in outfits %}
+        <p>date: {{ outfit.date_worn }}</p>
+        <p>pieces:</p>
+        <ul>
+            {% for piece in outfit.pieces %}
+            <li>{{ piece.name }}</li>
+            {% endfor %}
+        </ul>
+        <p>notes: {{ outfit.notes }}</p>
+    {% endfor %}
+    </div>
+    <p>to test image rendering next!</p>
+</div>
+
+{% endblock %}

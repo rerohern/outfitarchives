@@ -332,9 +332,15 @@ def test_log_outfit():
 
         #adding media
 
-
         
         return render_template("outfit-log-test.html", outfit_form = outfit_form, outfit_media = outfit_media, outfit_alt_groups = outfit_alt_groups)
+
+# OUTFIT LOG TEST ___________________________________________________________________________________
+@app.route('/outfits', methods=["GET", "POST"])
+def show_all_outfits():
+    outfits = Outfit.query.all()
+
+    return render_template("show_outfits_test.html", outfits=outfits)
 
 
 if __name__ == "__main__":
