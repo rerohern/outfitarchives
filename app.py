@@ -307,7 +307,7 @@ def test_log_outfit():
         }
 
         #creating an outfit on submit
-        date_worn = outfit_form.date.data
+        date_worn = outfit_form.date_worn.data
         is_special = outfit_form.special_toggle.data
         tags = outfit_form.tags.data
         piece_ids = [int(id) for id in request.form.getlist("piece_ids")]
@@ -331,6 +331,9 @@ def test_log_outfit():
         db.session.commit()
 
         #adding media
+        media_entries = []
+
+
 
         
         return render_template("outfit-log-test.html", outfit_form = outfit_form, outfit_media = outfit_media, outfit_alt_groups = outfit_alt_groups)

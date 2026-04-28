@@ -51,6 +51,9 @@ class Media(db.Model):
     outfit_id = db.Column(db.Integer, db.ForeignKey("outfits.id"), nullable=True)
     closet_piece_id = db.Column(db.Integer, db.ForeignKey("closet_pieces.id"), nullable=True)
 
+    #group_id for outfit types ([0] = base outfit version, [1] = alt outfit 1, etc)
+    group_id = db.Column(db.Integer, index=True, nullable=True, default=0)
+
     #relationships
     #many to many
     outfit = db.relationship("Outfit", foreign_keys=[outfit_id], back_populates="media")
@@ -144,11 +147,13 @@ class Outfit(db.Model):
     featured_texture_piece = db.relationship("ClosetPiece")
 
     # ___ functions  _____
-    def __init__(self, date_worn, notes=None, tags=None, featured_texture_piece_id=None):
+    def __init__(self, date_worn, pieces, notes=None, tags=None, featured_texture_piece_id=None, is_special=None):
         self.date_worn = date_worn
         self.notes = notes
         self.tags = tags
         self.featured_texture_piece_id = featured_texture_piece_id
+        self.is_special = is_special
+        self.pieces = pieces
 
         self.generate_outfit_code()
 
