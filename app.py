@@ -4,6 +4,7 @@ from forms import *
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, current_user, login_user, logout_user
 from flask_migrate import Migrate
+import json
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'archiveround2'
@@ -298,45 +299,65 @@ def test_outfit():
 
 # TEST OUTFIT BUILDER ROUTE _________________________________________________________________
 @app.route('/test-log-outfit', methods=["GET", "POST"])
-def test_log_outfit():
-    if current_user.is_authenticated:
-        outfit_form = LogOutfitForm()
-        outfit_media = build_media_forms(["front", "left", "back", "right"], media_type="outfit")
-        outfit_alt_groups = {
-            1: build_media_forms(["front", "left", "back", "right"], media_type="outfit_alt", group=1),
-        }
+def log_outfit():
 
-        #creating an outfit on submit
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+
+    outfit_form = LogOutfitForm()
+
+    # getting items JS outfit_payload data
+    payload = json.loads(request.form.get("outfit_payload"))
+
+    # -------------------
+    # POST: create outfit
+    # -------------------
+    if outfit_form.validate_on_submit():
+
         date_worn = outfit_form.date_worn.data
-        is_special = outfit_form.special_toggle.data
-        tags = outfit_form.tags.data
-        piece_ids = [int(id) for id in request.form.getlist("piece_ids")]
-        pieces = ClosetPiece.query.filter(ClosetPiece.id.in_(piece_ids)).all()
         notes = outfit_form.notes.data
-        featured_piece_id = outfit_form.featured_piece_id.data
+        tags = outfit_form.tags.data
+        is_special = outfit_form.special_toggle.data
+
+
+        pieces = ClosetPiece.query.filter(ClosetPiece.id.in_(payload["pieces"])).all()
+        featured_texture_piece_id = payload["featured_texture_piece_id"]
+
         if featured_piece_id:
             featured_piece_id = int(featured_piece_id)
 
-        #generate outfit code (happens on init anyway)
+            if featured_piece_id not in piece_ids:
+                featured_piece_id = None
+        else:
+            featured_piece_id = None
+
         new_outfit = Outfit(
-            is_special = is_special,
-            date_worn = date_worn,
-            tags = tags,
-            notes = notes, 
-            pieces = pieces,
-            featured_piece_id = featured_piece_id
+            is_special=is_special,
+            date_worn=date_worn,
+            tags=tags,
+            notes=notes,
+            pieces=pieces,
+            featured_texture_piece_id=featured_piece_id
         )
 
         db.session.add(new_outfit)
         db.session.commit()
 
-        #adding media
-        media_entries = []
+        # add media pieces here
 
+        # optional: prevent duplicate form resubmission
+        return redirect(url_for("log_outfit"))
 
-
-        
-        return render_template("outfit-log-test.html", outfit_form = outfit_form, outfit_media = outfit_media, outfit_alt_groups = outfit_alt_groups)
+    # -------------------
+    # GET: render page
+    # -------------------
+    return render_template(
+        "outfit-log-test.html",
+        outfit_form=outfit_form,
+        outfit_media=outfit_media,
+        outfit_alt_groups=outfit_alt_groups,
+        closet_items=ClosetPiece.query.all()
+    )
 
 # OUTFIT LOG TEST ___________________________________________________________________________________
 @app.route('/outfits', methods=["GET", "POST"])

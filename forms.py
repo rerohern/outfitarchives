@@ -74,8 +74,6 @@ class LogOutfitForm(FlaskForm):
         validators=[Optional()]
     )
 
-    featured_piece_id = BooleanField("featured_piece_id", validators=[Optional()])
-
     # --- Hidden fields (JS-controlled) ---
     outfit_code = HiddenField()   # optional (if you want frontend access)
     media_data = HiddenField()    # JSON string from drag-and-drop

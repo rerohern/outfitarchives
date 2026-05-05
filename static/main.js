@@ -68,122 +68,153 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // _________________________________________________________________________________________________________________________________________________________
-//  Log Outfit Forms | Drag + Drop Outfit Media 
+// log outfit form | outfit_payload info
 // _________________________________________________________________________________________________________________________________________________________
 
+let outfit = {
+    pieces: [],
+    featured_texture_piece_id: null,
+    media: {},
+};
 
-const dragDropArea = document.getElementById("drag-drop-area");
-const fileInput = document.getElementById("file-input");
-const previewContainer = document.getElementById("preview-container");
-const mediaDataInput = document.getElementById("media-data");
-
-let mediaFiles = [];
-
-// Open file picker
-dragDropArea.addEventListener("click", () => fileInput.click());
-
-// Drag events
-dragDropArea.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    dragDropArea.classList.add("dragover");
-});
-
-dragDropArea.addEventListener("dragleave", () => {
-    dragDropArea.classList.remove("dragover");
-});
-
-dragDropArea.addEventListener("drop", (e) => {
-    e.preventDefault();
-    dragDropArea.classList.remove("dragover");
-    handleFiles(e.dataTransfer.files);
-});
-
-fileInput.addEventListener("change", () => handleFiles(fileInput.files));
-
-function handleFiles(files) {
-    for (const file of files) {
-        if (!file.type.startsWith("image/")) continue;
-
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
-            const previewItem = document.createElement("div");
-            previewItem.classList.add("preview-item");
-
-            // Image preview
-            const img = document.createElement("img");
-            img.src = e.target.result;
-
-            // Alt text
-            const altInput = document.createElement("input");
-            altInput.placeholder = "Alt text";
-
-            // Media type
-            const typeSelect = document.createElement("select");
-            ["outfit", "outfit_alt", "detail"].forEach(type => {
-                const option = document.createElement("option");
-                option.value = type;
-                option.text = type;
-                typeSelect.appendChild(option);
-            });
-
-            // View (IMPORTANT for your model)
-            const viewSelect = document.createElement("select");
-            ["Front", "Side", "Back", "Detail"].forEach(view => {
-                const option = document.createElement("option");
-                option.value = view;
-                option.text = view;
-                viewSelect.appendChild(option);
-            });
-
-            // Remove button
-            const removeBtn = document.createElement("button");
-            removeBtn.textContent = "Remove";
-
-            removeBtn.addEventListener("click", () => {
-                previewItem.remove();
-                mediaFiles = mediaFiles.filter(m => m.file !== file);
-                updateMediaData();
-            });
-
-            // Update on change
-            [altInput, typeSelect, viewSelect].forEach(el => {
-                el.addEventListener("input", updateMediaData);
-            });
-
-            previewItem.append(img, altInput, typeSelect, viewSelect, removeBtn);
-            previewContainer.appendChild(previewItem);
-
-            mediaFiles.push({
-                file,
-                altInput,
-                typeSelect,
-                viewSelect
-            });
-
-            updateMediaData();
-        };
-
-        reader.readAsDataURL(file);
+function selectPieceToggle(id, checked) {
+    if (checked) {
+        // add piece if previously unchecked and is now checked
+        outfit.pieces.push(id);
+    } else {
+        // remove piece if previously checked and is now unchekced
+        outfit.pieces = outfit.pieces.filter(p => p !== id);
+        if (outfit.featured_texture_piece_id === id) {
+            outfit.featured_texture_piece_id = null;
+        }
     }
+    syncPayload();
 }
 
-// Convert to JSON for backend
-function updateMediaData() {
-    const outfitCode = generateOutfitCode(); // you can replace this if backend generates it
-
-    const mediaData = mediaFiles.map(item => ({
-        img_src: `/static/media/outfits/${outfitCode}/${item.file.name}`,
-        alt_text: item.altInput.value,
-        media_type: item.typeSelect.value,
-        view: item.viewSelect.value
-    }));
-
-    mediaDataInput.value = JSON.stringify(mediaData);
+function setFeaturedTexturePiece(id){
+    // check if piece is in outfit.pieces, if not... error validation? 
+    if (!outfit.pieces.includes(id)) return;
+    outfit.featured_texture_piece_id = id;
+    syncPayload();
 }
 
-// TEMP helper (or remove if backend handles code)
-function generateOutfitCode() {
-    const date = document.querySelector('input[name="date_worn"]').value;
-    return date || "temp";
+function updateMedia(group, view, imgSrc, altText){
+    if (!outfit.media[group]){
+        outfit.media[group] = {};
+    } 
+    outfit.media[group][view] = {
+        img_src: imgSrc,
+        alt_text: altText 
+    };
+    syncPayload()
 }
+
+function syncPayload(){
+    document.getElementById("outfit_payload").value = JSON.stringify(outfit);
+}
+
+
+
+
+
+// // _________________________________________________________________________________________________________________________________________________________
+// //  Log Outfit Forms | Drag + Drop Outfit Media 
+// // _________________________________________________________________________________________________________________________________________________________
+
+
+// const dragDropArea = document.getElementById("drag-drop-area");
+// const fileInput = document.getElementById("file-input");
+// const previewContainer = document.getElementById("preview-container");
+// const mediaDataInput = document.getElementById("media-data");
+
+// let mediaFiles = [];
+
+// // Open file picker
+// dragDropArea.addEventListener("click", () => fileInput.click());
+
+// // Drag events
+// dragDropArea.addEventListener("dragover", (e) => {
+//     e.preventDefault();
+//     dragDropArea.classList.add("dragover");
+// });
+
+// dragDropArea.addEventListener("dragleave", () => {
+//     dragDropArea.classList.remove("dragover");
+// });
+
+// dragDropArea.addEventListener("drop", (e) => {
+//     e.preventDefault();
+//     dragDropArea.classList.remove("dragover");
+//     handleFiles(e.dataTransfer.files);
+// });
+
+// fileInput.addEventListener("change", () => handleFiles(fileInput.files));
+
+// function handleFiles(files) {
+//     for (const file of files) {
+//         if (!file.type.startsWith("image/")) continue;
+
+//         const reader = new FileReader();
+
+//         reader.onload = (e) => {
+//             const previewItem = document.createElement("div");
+//             previewItem.classList.add("preview-item");
+
+//             // Image preview
+//             const img = document.createElement("img");
+//             img.src = e.target.result;
+
+//             // Alt text
+//             const altInput = document.createElement("input");
+//             altInput.placeholder = "Alt text";
+
+//             // Media type
+//             const typeSelect = document.createElement("select");
+//             ["outfit", "outfit_alt", "detail"].forEach(type => {
+//                 const option = document.createElement("option");
+//                 option.value = type;
+//                 option.text = type;
+//                 typeSelect.appendChild(option);
+//             });
+
+//             // View (IMPORTANT for your model)
+//             const viewSelect = document.createElement("select");
+//             ["Front", "Side", "Back", "Detail"].forEach(view => {
+//                 const option = document.createElement("option");
+//                 option.value = view;
+//                 option.text = view;
+//                 viewSelect.appendChild(option);
+//             });
+
+//             // Remove button
+//             const removeBtn = document.createElement("button");
+//             removeBtn.textContent = "Remove";
+
+//             removeBtn.addEventListener("click", () => {
+//                 previewItem.remove();
+//                 mediaFiles = mediaFiles.filter(m => m.file !== file);
+//                 updateMediaData();
+//             });
+
+//             // Update on change
+//             [altInput, typeSelect, viewSelect].forEach(el => {
+//                 el.addEventListener("input", updateMediaData);
+//             });
+
+//             previewItem.append(img, altInput, typeSelect, viewSelect, removeBtn);
+//             previewContainer.appendChild(previewItem);
+
+//             mediaFiles.push({
+//                 file,
+//                 altInput,
+//                 typeSelect,
+//                 viewSelect
+//             });
+
+//             updateMediaData();
+//         };
+
+//         reader.readAsDataURL(file);
+//     }
+// }
+

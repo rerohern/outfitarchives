@@ -17,64 +17,9 @@
         {{ outfit_form.tags(class="add-piece-input") }}
       </div>
     </div>
-    <div class="outfit-builder-media-section form-section">
-      <div class="form-row"><h2>upload media</h3></div>
-      <div class="outfit-builder-media-grid">
-        {% for view, form in outfit_media.items() %}
-          <div class="outfit-builder-media-grid-item form-section">
-              <h4>{{ view }}</h4>
-              <div class="form-row">
-                {{ form.img_src.label(class="add-piece-label") }}
-                {{ form.img_src(class="add-piece-input" name="media[0][{{ view }}][img_src]") }}
-              </div>
-              <div class="form-row">
-                {{ form.alt_text.label(class="add-piece-label") }}
-                {{ form.alt_text(class="add-piece-input" name="media[0][{{ view }}][alt_text]") }}
-              </div>
-          </div>
-        {% endfor %}
-      </div> 
-    </div>
-    <div>
-      <button class="add-other-alt-btn">add alternate outfit</button>
-    </div>
-    <div class="outfit-builder-media-section form-section">
-  
-      <div class="form-row">
-        <h2>alternate outfit media</h2>
-        <button class="add-other-alt-btn" type="button">
-          add alternate outfit
-        </button>
-      </div>
     
-      <!-- JS will inject alt outfit groups here -->
-      <div id="alt-outfit-container"></div>
+    <!-- JS outfit_payload info here if HTML is necessary -->
     
-    </div>
-    <div class="form-section outfit-builder-pieces">
-      <div class="form-row">
-        <h2>pieces</h2>
-      </div>
-    
-      <div class="outfit-builder-pieces-grid">
-        {% for item in closet_items %}
-          <label class="piece-checkbox">
-            <input 
-              type="checkbox" 
-              name="piece_ids" 
-              value="{{ item.id }}"
-            >
-            <span class="piece-label">
-              {{ item.name }}
-            </span>
-          </label>
-          <label>
-            <input type="radio" name="featured_piece_id" value="{{ item.id }}">
-            featured
-          </label>
-        {% endfor %}
-      </div>
-    </div>
     <div class="form-section outfit-builder-misc">
       <div class="form-row">
         {{ outfit_form.notes.label(class="add-piece-label") }}
@@ -86,6 +31,7 @@
         </div>
       </div>
     </div>
+    <input type="hidden" name="outfit_payload" id="outit_payload">
 </form>
 
 

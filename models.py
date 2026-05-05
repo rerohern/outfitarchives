@@ -144,7 +144,7 @@ class Outfit(db.Model):
 
     #one to many
     media = db.relationship("Media", foreign_keys=[Media.outfit_id], back_populates="outfit")
-    featured_texture_piece = db.relationship("ClosetPiece")
+    featured_texture_piece = db.relationship("ClosetPiece", foreign_keys=[featured_texture_piece_id])
 
     # ___ functions  _____
     def __init__(self, date_worn, pieces, notes=None, tags=None, featured_texture_piece_id=None, is_special=None):
