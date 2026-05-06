@@ -279,18 +279,6 @@ def api_closet_pieces():
 # REGULAR BASE OUTFIT TEST ROUTE ________________________________________________________
 @app.route('/test-outfit', methods=["GET"])
 def test_outfit():
-    # top = ClosetPiece.query.filter_by(category="tops").first()
-    # bottom = ClosetPiece.query.filter_by(category="bottoms").first()
-    # accessory = ClosetPiece.query.filter_by(category="accessories").first()
-    # shoe = ClosetPiece.query.filter_by(category="shoes").first()
-    # outfit = Outfit(date_worn=date.today())
-    # outfit.pieces = [top, bottom, accessory, shoe]
-    # outfit.notes = "this is a test outfit, here to figure out the base formatting for outfits"
-    # outfit.featured_texture_piece = bottom
-
-    # db.session.add(outfit)
-    # db.session.commit()
-
     outfit = Outfit.query.filter_by(code="outfit_20260407_1").first_or_404()
 
     
@@ -344,6 +332,27 @@ def log_outfit():
         db.session.commit()
 
         # add media pieces here
+        media = payload["media"]
+
+        for group, views in media.items():
+            group_id = group
+            
+            for view, data in views.items():
+                img_src = data["img_src"]
+                alt_text = data["alt_text"]
+
+                newMedia = Media(
+                    img_src=img_src,
+                    alt_text=alt_text,
+                    media_type="outfit",
+                    group_id=group_id
+                )
+
+                db.session.add(newMedia)
+                outfit.media.append(newMedia)
+        
+        db.session.commit()
+
 
         # optional: prevent duplicate form resubmission
         return redirect(url_for("log_outfit"))
