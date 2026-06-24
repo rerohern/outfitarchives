@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>test: log an outfit form (includes various media forms and outfit log form)</h2>
+<h1>test: log an outfit form (includes various media forms and outfit log form)</h1>
 <form class="outfit-builder-container" method="POST">
     {{ outfit_form.csrf_token }}
     <div class="form-section" id="outfit-builder-top-section">
@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-    <input type="hidden" name="outfit_payload" id="outit_payload">
+    <input type="hidden" name="outfit_payload" id="outfit_payload">
 </form>
 
 

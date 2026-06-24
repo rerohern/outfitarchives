@@ -1,4 +1,5 @@
 from extensions import db
+from sqlalchemy import event
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
@@ -59,6 +60,15 @@ class Media(db.Model):
     outfit = db.relationship("Outfit", foreign_keys=[outfit_id], back_populates="media")
     closet_piece = db.relationship("ClosetPiece", back_populates="media")
 
+# ___ closet piece category counter ______________________________________________________________________________
+
+class CategoryCounter(db.Model):
+    __tablename__ = "category_counters"
+
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String, unique=True, nullable=False)
+    last_number = db.Column(db.Integer, default=0, nullable=False)
+
 # ___ closet piece model ___________________________________________________________________________________
 
 class ClosetPiece(db.Model):
@@ -95,12 +105,6 @@ class ClosetPiece(db.Model):
         self.year_made = year_made
         self.acquisition_id = acquisition_id
 
-        self.generate_piece_code()
-
-    def generate_piece_code(self):
-        count = ClosetPiece.query.filter_by(category=self.category).count()
-        self.code = f"{self.category}_{count + 1}"
-
     # ____ helper properties for images _____
     @property
     def piece_images(self):
@@ -112,16 +116,34 @@ class ClosetPiece(db.Model):
         """all texture images"""
         return [m for m in self.media if m.media_type == "texture"]
 
-    @property
-    def get_texture(self):
-        """return texture image"""
-        return self.textures[0].img_src if self.textures else None
+@event.listens_for(ClosetPiece, "before_insert")
+def generate_piece_code(mapper, connection, target):
 
-    @property
-    def featured_texture(self):
-        if self.featured_texture_piece:
-            return self.featured_texture_piece.get_texture
-        return None
+    category = target.category
+
+    result = connection.execute(
+        CategoryCounter.__table__.select()
+        .where(CategoryCounter.category == category)
+    ).first()
+
+    if result is None:
+        connection.execute(
+            CategoryCounter.__table__.insert().values(
+                category=category,
+                last_number=1
+            )
+        )
+        counter_value = 1
+    else:
+        counter_value = result.last_number + 1
+
+        connection.execute(
+            CategoryCounter.__table__.update()
+            .where(CategoryCounter.category == category)
+            .values(last_number=counter_value)
+        )
+
+    target.code = f"{category}_{counter_value}"
 
 # ____ outfit models ___________________________________________________________________________________
 
@@ -173,6 +195,13 @@ class Outfit(db.Model):
     def alt_images(self):
         """all alt outfit images"""
         return [m for m in self.media if m.media_type == "outfit_alt"]
+
+    @property
+    def featured_texture(self):
+        """return texture image for featured texture piece"""
+        if self.featured_texture_piece:
+            return self.featured_texture_piece.get_texture
+        return None
 
     # @property
     # def month_gifs(self):
