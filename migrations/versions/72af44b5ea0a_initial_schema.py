@@ -1,8 +1,8 @@
-"""add category counters table
+"""initial schema
 
-Revision ID: 5efb6e379d80
-Revises: 6a1aa341b704
-Create Date: 2026-06-24 16:52:52.245719
+Revision ID: 72af44b5ea0a
+Revises: 
+Create Date: 2026-06-24 18:01:34.871981
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '5efb6e379d80'
-down_revision = '6a1aa341b704'
+revision = '72af44b5ea0a'
+down_revision = None
 branch_labels = None
 depends_on = None
 
@@ -34,6 +34,13 @@ def upgrade():
         batch_op.create_index(batch_op.f('ix_acquisition_store_name'), ['store_name'], unique=False)
         batch_op.create_index(batch_op.f('ix_acquisition_year_acquired'), ['year_acquired'], unique=False)
 
+    op.create_table('category_counters',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('category', sa.String(), nullable=False),
+    sa.Column('last_number', sa.Integer(), nullable=False),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('category')
+    )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=80), nullable=True),
@@ -139,6 +146,7 @@ def downgrade():
         batch_op.drop_index(batch_op.f('ix_user_username'))
 
     op.drop_table('user')
+    op.drop_table('category_counters')
     with op.batch_alter_table('acquisition', schema=None) as batch_op:
         batch_op.drop_index(batch_op.f('ix_acquisition_year_acquired'))
         batch_op.drop_index(batch_op.f('ix_acquisition_store_name'))

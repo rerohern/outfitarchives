@@ -154,8 +154,8 @@ class TestClosetPieceModel(BaseTestCase):
     
     # def test_add_media_to_piece(self):
 
-    
-        # - adding media + texture to piece (already implicitly tested already with closet piece helper tests?)
+    def test_add_acquisition(self):
+        
         # - adding acquisition to piece
 
     # test for updating closet piece: 

@@ -5,10 +5,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, current_user, login_user, logout_user
 from flask_migrate import Migrate
 import json
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config=True)
 app.config['SECRET_KEY'] = 'archiveround2'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///outfitarchive.db'
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    "sqlite:///" + os.path.join(app.instance_path, "outfitarchive.db")
+)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # initialize extensions
@@ -19,7 +22,7 @@ login_manager.login_view = 'login'
 migrate = Migrate(app, db)
 
 # importing models after db is initialized
-from models import User, Media, ClosetPiece, Acquisition, OutfitPieces, Outfit
+from models import User, Media, ClosetPiece, Acquisition, OutfitPieces, Outfit, CategoryCounter
 
 # loading users 
 @login_manager.user_loader
@@ -378,6 +381,6 @@ def show_all_outfits():
 
 if __name__ == "__main__":
     with app.app_context():
-        # db.create_all()  # db already initialized, commented out but for future reference
+        #db.create_all()  # db already initialized, commented out but for future reference
         app.run(debug=True)
 
