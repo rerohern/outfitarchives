@@ -10,6 +10,9 @@ Outfit Archive is a full-stack CRUD web application designed to function like a 
 
 Authenticated users can add and edit closet pieces, browse the collection with client-side search and filtering, and log outfits by selecting pieces and submitting structured media payloads. Public visitors can browse closet pieces and outfit logs in read-only mode.
 
+# Mock Up
+![Outfit Tempate Figma Mock Up](screenshots/mock-up-outfit-norm.png)
+
 ### Core Features
 
 - **Closet piece management** — Create, view, and edit garments with category-based auto-coding
@@ -21,6 +24,15 @@ Authenticated users can add and edit closet pieces, browse the collection with c
 - **Public vs. admin views** — Separate templates for authenticated and public browsing
 
 ---
+
+## Screenshots
+
+![Log in screen](screenshots/log-in-screen.png)
+![Dynamic Search](screenshots/dynamic-search.png)
+![Closet View](screenshots/closet-view.png)
+![Edit Piece (wip)](screenshots/edit-piece-wip.png)
+![Log Outfit Figma Mock Up](screenshots/mock-up-log-outfit.png)
+![Mobile Figma Mock Up](screenshots/mock-up-mobile.png)
 
 ## Development Approach
 
@@ -243,7 +255,7 @@ The app runs at `http://127.0.0.1:5000` with debug mode enabled.
 
 ### First-Time Admin Setup
 
-1. Visit `/setup` to create the admin account (username: `rero`).
+1. Visit `/setup` to create the admin account (currently single-user by design; username is hardcoded — multi-user support is on the roadmap).
 2. Log in at `/login`.
 3. Use the home page to add closet pieces.
 
