@@ -22,6 +22,12 @@ Authenticated users can add and edit closet pieces, browse the collection with c
 
 ---
 
+## Development Approach
+
+Outfit Archive was built independently as a self-directed learning project. I wrote and developed approximately 90% of the codebase myself, using AI occasionally as a debugging aid and to clarify unfamiliar concepts (for example, understanding how to structure JSON payloads for the outfit logging flow). All architecture decisions, data modeling, feature design, and implementation are my own.
+
+---
+
 ## Architecture
 
 ### Tech Stack
