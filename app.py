@@ -14,6 +14,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = (
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+print("DATABASE:", os.path.join(app.instance_path, "outfitarchive.db"))
+
 # initialize extensions
 db.init_app(app)
 csrf.init_app(app)
