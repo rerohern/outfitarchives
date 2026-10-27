@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>hello {{ current_user.username }}, you've landed in ur outfit archive!</h1>
+    <p>not much to see here yet, but check out cataloged closet pieces in the nav bar above</p>
+    <p>or add a piece here to your closet!</p>
+
+    <form class="add-piece-form" method="POST">
+        {{ form.csrf_token }}
+
+        <div class="form-section">
+            <h3>core info</h3>
+
+            <div class="form-row">
+                {{ form.name.label(class="add-piece-label") }}
+                {{ form.name(class="add-piece-input") }}
+            </div>
+
+            <div class="form-row">
+                {{ form.category.label(class="add-piece-label") }}
+                {{ form.category(class="add-piece-input-radio") }}
+            </div>
+
+            <div class="form-row">
+                {{ form.brand.label(class="add-piece-label") }}
+                {{ form.brand(class="add-piece-input") }}
+            </div>
+
+            <div class="form-row">
+                {{ form.year_made.label(class="add-piece-label") }}
+                {{ form.year_made(class="add-piece-input") }}
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>acquisition info</h3>
+
+            <div class="form-row">
+                {{ form.credit_type.label(class="add-piece-label") }}
+                {{ form.credit_type(class="add-piece-input-radio") }}
+            </div>
+
+            <div class="form-row">
+                {{ form.store_name.label(class="add-piece-label") }}
+                {{ form.store_name(class="add-piece-input") }}
+            </div>
+
+            <div class="form-row">
+                {{ form.store_location.label(class="add-piece-label") }}
+                {{ form.store_location(class="add-piece-input") }}
+            </div>
+
+            <div class="form-row">
+                {{ form.year_acquired.label(class="add-piece-label") }}
+                {{ form.year_acquired(class="add-piece-input") }}
+            </div>
+
+            <div class = "form-row">
+                <h4><strong>if gift or loan</strong></h4>
+            </div>
+
+            <div class="form-row">
+                {{ form.from_who.label(class="add-piece-label") }}
+                {{ form.from_who(class="add-piece-input") }}
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h3>media info</h3>
+
+            <div class="form-row">
+                {{ form.img_src.label(class="add-piece-label") }}
+                {{ form.img_src(class="add-piece-input") }}
+            </div>
+
+            <div class="form-row">
+                {{ form.alt_text.label(class="add-piece-label") }}
+                {{ form.alt_text(class="add-piece-input") }}
+            </div>
+
+            <div class="form-section">
+                <div class="form-submit-button">
+                    {{ form.submit() }}
+                </div>
+            </div>
+        </div>
+
+    </form>
+{% endblock %}

@@ -38,6 +38,71 @@ def load_user(user_id):
 @app.route('/home', methods=["GET", "POST"])
 def index():
     if current_user.is_authenticated: 
+        return render_template("landing-admin.html", current_user=current_user)
+
+    else:
+        return render_template("landing-public.html")
+
+#____________________________________________________________________________________________________
+# SETUP PAGE + USER MANAGEMENT | password: fashiontech
+#____________________________________________________________________________________________________
+@app.route('/setup', methods=["GET", "POST"])
+def setup():
+    if User.query.filter_by(username='rero').first():
+        flash("admin account already exists! log in for archival access")
+        return redirect(url_for('login'))
+
+    form = SetPasswordForm()
+    if form.validate_on_submit():
+        user = User(username='rero')
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('admin account created!')
+        return redirect(url_for('login'))
+    
+    elif request.method == "POST":
+        # if form submitted but validation fails
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash(f"Error in {getattr(form, field).label.text}: {error}", "danger")
+
+    return render_template('setup.html', form=form)
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    form = LogInForm()
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(username='rero').first()
+        password = form.password.data
+
+        #validate password data
+        if not check_password_hash(user.password_hash, password):
+            flash("oops, incorrect password!")
+            return render_template("login.html", form=form)
+
+        #log user in
+        login_user(user, remember=form.remember_me.data)
+        flash("accessed! redirecting to home page")
+        return redirect(url_for("index"))
+
+    return render_template("login.html", form=form)
+
+@app.route('/logout', methods=["GET", "POST"])
+def logout():
+    if current_user.is_authenticated:
+        logout_user() 
+        flash("bye! xoxo", "info")
+    return redirect(url_for("index"))
+
+#____________________________________________________________________________________________________
+# ADMIN DASHBOARD | BACKSTAGE
+#____________________________________________________________________________________________________
+@app.route('/backstage', methods=["GET", "POST"])
+@app.route('/admin', methods=["GET", "POST"])
+def backstage():
+    if current_user.is_authenticated: 
         form = AddClosetPieceForm()
 
         #creating a piece on submit
@@ -102,64 +167,26 @@ def index():
                         "danger"
                     )
 
-        return render_template("landing-admin.html", current_user=current_user, form=form)
+        return render_template("backstage.html", current_user=current_user, form=form)
 
     else:
-        return render_template("landing-public.html")
+        form = LogInForm()
 
-#____________________________________________________________________________________________________
-# SETUP PAGE + USER MANAGEMENT | password: fashiontech
-#____________________________________________________________________________________________________
-@app.route('/setup', methods=["GET", "POST"])
-def setup():
-    if User.query.filter_by(username='rero').first():
-        flash("admin account already exists! log in for archival access")
-        return redirect(url_for('login'))
+        if form.validate_on_submit():
+            user = User.query.filter_by(username='rero').first()
+            password = form.password.data
 
-    form = SetPasswordForm()
-    if form.validate_on_submit():
-        user = User(username='rero')
-        user.set_password(form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash('admin account created!')
-        return redirect(url_for('login'))
-    
-    elif request.method == "POST":
-        # if form submitted but validation fails
-        for field, errors in form.errors.items():
-            for error in errors:
-                flash(f"Error in {getattr(form, field).label.text}: {error}", "danger")
+            #validate password data
+            if not check_password_hash(user.password_hash, password):
+                flash("oops, incorrect password!")
+                return render_template("login.html", form=form)
 
-    return render_template('setup.html', form=form)
+            #log user in
+            login_user(user, remember=form.remember_me.data)
+            flash("accessed! redirecting to home page")
+            return redirect(url_for("index"))
 
-@app.route('/login', methods=["GET", "POST"])
-def login():
-    form = LogInForm()
-
-    if form.validate_on_submit():
-        user = User.query.filter_by(username='rero').first()
-        password = form.password.data
-
-        #validate password data
-        if not check_password_hash(user.password_hash, password):
-            flash("oops, incorrect password!")
-            return render_template("login.html", form=form)
-
-        #log user in
-        login_user(user, remember=form.remember_me.data)
-        flash("accessed! redirecting to home page")
-        return redirect(url_for("index"))
-
-    return render_template("login.html", form=form)
-
-@app.route('/logout', methods=["GET", "POST"])
-def logout():
-    if current_user.is_authenticated:
-        logout_user() 
-        flash("bye! xoxo", "info")
-    return redirect(url_for("index"))
-
+        return render_template("login.html", form=form)
 #____________________________________________________________________________________________________
 # CLOSET PIECES PAGE
 #____________________________________________________________________________________________________
