@@ -280,8 +280,17 @@ def edit_closet_piece(code):
     return render_template("edit-piece.html", form=form, piece=piece)
    
 #____________________________________________________________________________________________________
-# OUTFITS 
+# LOOKBOOKS 
 #____________________________________________________________________________________________________
+@app.route('/lookbook', methods=["GET", "POST"])
+def lookbook():
+    pass
+
+# @app.route('/lookbook/<int:year>', methods=["GET"])
+# def display_year(year):
+#     # retrieve months for selected year, with each month doing the selected photo and the hover effect
+#     displayed_year = MonthlyLookbook.query.filter_by(year=year) 
+#   
 
 # API route for ClosetPieces for outfit builder ________________________________________________________
 @app.route('/api/closet-pieces', methods=["GET"])

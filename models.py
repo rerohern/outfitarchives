@@ -42,7 +42,7 @@ class Media(db.Model):
     img_src = db.Column(db.String(400), index=True, unique=True, nullable=True)
     alt_text = db.Column(db.String(200), index=False, unique=False)
    
-    #media types: piece, texture, outfit, outfit_alt, month
+    #media types: piece, texture, outfit, outfit_alt, month_cover, month_gif
     media_type = db.Column(db.String(30), index=True, unique=False, nullable=True)
     
     #view options: front, left, back, right
@@ -218,6 +218,27 @@ class Outfit(db.Model):
         #fallback to first image of m.media_type 
         type_images = [m.img_src for m in self.media if m.media_type == media_type]
         return type_images[0] if type_images else None
+
+
+# ____ monthly lookbook model _______________________________________________________________________________________
+class MonthlyLookbook(db.Model):
+    __tablename__ = "monthly_lookbook"
+
+    #one entry per month, per year and months are between 1 - 12
+    __table_args__ = (db.UniqueConstraint("year", "month", name="unique_lookbook_month_year"), db.CheckConstraint("month >= 1 AND month <= 12", name="valid_lookbook_month"),)
+
+    id = db.Column(db.Integer, primary_key=True)
+    year = db.Column(db.Integer, nullable=False, index=True)
+    month = db.Column(db.Integer, nullable=False)
+
+    cover_media_id = db.Column(db.Integer, db.ForeignKey("media.id"), nullable=False)
+    gif_media_id = db.Column(db.Integer, db.ForeignKey("media.id"), nullable=True)
+
+    # Relationships
+    cover_media = db.relationship("Media", foreign_keys=[cover_media_id])
+    gif_media = db.relationship("Media", foreign_keys=[gif_media_id])
+
+
 
 # ___ credit/acquisition model ___________________________________________________________________________________
 
