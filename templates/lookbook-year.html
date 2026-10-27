@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="page-container">
+    <h1>{{ year }} lookbook</h1>
+    <div class="displayed-month-container">
+        {% for month in displayed_months %}
+        <div class="displayed-month-card">
+            <img id="{{ month.id }}-month-cover"
+            src="{{ url_for('static', filename=month.cover_media.img_src) }}"
+            alt="{{ month.cover_media.alt_text }}">
+            {% if month.gif_media %}
+            <img
+                id="{{ month.id }}-gif"
+                src="{{ url_for('static', filename=month.gif_media.img_src) }}"
+                alt="{{ month.gif_media.alt_text }}">
+            {% endif %}
+            <h2>{{ month_names[month.month] }}</h2>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -6,6 +6,7 @@ from flask_login import UserMixin, current_user, login_user, logout_user
 from flask_migrate import Migrate
 import json
 import os
+import calendar
 
 app = Flask(__name__, instance_relative_config=True)
 app.config['SECRET_KEY'] = 'archiveround2'
@@ -284,13 +285,28 @@ def edit_closet_piece(code):
 #____________________________________________________________________________________________________
 @app.route('/lookbook', methods=["GET", "POST"])
 def lookbook():
-    pass
+    if current_user.is_authenticated: 
+        return render_template("lookboo-admin.html")
 
-# @app.route('/lookbook/<int:year>', methods=["GET"])
-# def display_year(year):
+    else:
+        return render_template("lookbook.html")
+
+@app.route('/lookbook/<int:year>', methods=["GET"])
+def display_year(year):
 #     # retrieve months for selected year, with each month doing the selected photo and the hover effect
-#     displayed_year = MonthlyLookbook.query.filter_by(year=year) 
-#   
+    month_names = calendar.month_name
+
+    displayed_months = MonthlyLookbook.query.filter_by(year=year).order_by(MonthlyLookbook.month).all()
+    
+    if not displayed_months:
+        abort(404)
+
+    return render_template("lookbook-year.html", year=year, displayed_months=displayed_months, month_names=month_names)
+
+# @app.route('/lookbook/<int:year>/<int:month', methods=["GET"])
+# def display_month(month):
+#     #retrieve daily outfits for each month
+#     pass 
 
 # API route for ClosetPieces for outfit builder ________________________________________________________
 @app.route('/api/closet-pieces', methods=["GET"])
