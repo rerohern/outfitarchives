@@ -2,8 +2,40 @@
 
 {% block content %}
     <h1>hello {{ current_user.username }}, you've landed in ur outfit archive!</h1>
-    <p>not much to see here yet, but check out cataloged closet pieces in the nav bar above</p>
-    <p>or add a piece here to your closet!</p>
+    <p>OOTD, but without the doomscroll</p>
+    <p>drawing here with the menu????</p>
+
+    <p>toggle here for rotation or look today</p>
+    <section class="one-column-content-home home-row" id="landing-splash-on">
+        <p>a gif here of rotating 'starred' outfits selected in admin state</p>
+        <h2>every outfit i've every documented</h2>
+        <p>some subline here idk</p>
+        <p>link to browse by year, month, or reina's personal faves</p>
+        <p><em>on hover, show second landing-splash but don't change until toggled</em></p>
+    </section>
+    <section class="one-column-content-home home-row" id="landing-splash-off">
+        <p>photo of most recent look</p>
+        <h2>most recent look</h2>
+        <h3>date</h3>
+        <p>add other views</p>
+        <p>link to view more in detail</p>
+    </section>
+    <p>_______________________________</p>
+    <section class="one-column-content-home home-row" id="landing-recent-additions">
+        <h2>recent additions</h2>
+        <p>8 most recent objects or items. a card section here</p>
+        <p>link to view closet or outfits</p>
+    </section>
+    <p>_______________________________</p>
+    <section class="home-row two-column-content-home" id="landing-bottom-row">
+        <div class="two-column-div" id="home-by-lookbook">
+            <h2>scroll through lookbooks</h2>
+        </div>
+        <div class="two-column-div" id="home-by-closet">
+            <h2>try out wardrobe</h2>
+        </div>
+    </section>
+
 
     <p>note for reina: add old homepage template here from past project! include link here for backstage:</p>
     <a href="{{ url_for('backstage') }}">admin page</a>
